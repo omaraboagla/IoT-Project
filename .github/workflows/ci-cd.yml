@@ -1,0 +1,55 @@
+name: Angular CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest  # Use Windows runner
+
+    steps:
+      # Step 1: Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Node.js (required for Angular)
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # Change this to the Node.js version that your Angular project requires
+
+      # Step 3: Cache Node.js dependencies to speed up builds (optional)
+      - name: Cache Node.js modules
+        uses: actions/cache@v2
+        with:
+          path: C:\Users\RunnerUser\AppData\Local\npm-cache  # Use the correct cache path for Windows
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
+
+      # Step 4: Install dependencies
+      - name: Install dependencies
+        run: |
+          npm install
+
+      # Step 5: Run Angular tests
+      - name: Run tests
+        run: |
+          npm run test -- --watch=false --browsers=ChromeHeadlessCI
+
+      # Step 6: Build the Angular app
+      - name: Build Angular project
+        run: |
+          npm run build -- --prod
+
+      # Optional: Step 7 - Deploy your Angular app (example)
+      - name: Deploy to cloud platform (e.g., Firebase, AWS, etc.)
+        run: |
+          # Replace this with your actual deployment command, such as:
+          # firebase deploy --token ${{ secrets.FIREBASE_TOKEN }}
+          echo "Deploying to cloud platform..."
