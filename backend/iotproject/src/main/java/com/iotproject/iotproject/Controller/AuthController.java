@@ -5,6 +5,7 @@ import com.iotproject.iotproject.Dto.RegisterDto;
 import com.iotproject.iotproject.Dto.ResponseDto;
 import com.iotproject.iotproject.Service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,11 +21,21 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<ResponseDto> register(@RequestBody RegisterDto registerDto) {
-        return ResponseEntity.ok(authService.register(registerDto));
+        ResponseDto response = authService.register(registerDto);
+
+        return ResponseEntity
+                .status(response.isSuccess() ? HttpStatus.CREATED : HttpStatus.CONFLICT)
+                .body(response);
     }
 
     @PostMapping("/login")
     public ResponseEntity<ResponseDto> login(@RequestBody LoginDto loginDto) {
-        return ResponseEntity.ok(authService.login(loginDto));
+        ResponseDto response = authService.login(loginDto);
+
+        if (response.isSuccess()) {
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
     }
 }
