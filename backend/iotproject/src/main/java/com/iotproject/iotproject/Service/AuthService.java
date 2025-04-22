@@ -7,7 +7,9 @@ import com.iotproject.iotproject.Entity.User;
 import com.iotproject.iotproject.Repo.UserRepository;
 import com.iotproject.iotproject.Config.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,45 +25,81 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public ResponseDto register(RegisterDto registerDto) {
+        try {
+            if (userRepository.existsByEmail(registerDto.getEmail())) {
+                return ResponseDto.builder()
+                        .success(false)
+                        .message("Email already exists")
+                        .build();
+            }
 
-        if (userRepository.existsByEmail(registerDto.getEmail())) {
+            User user = User.builder()
+                    .username(registerDto.getUsername())
+                    .email(registerDto.getEmail())
+                    .password(passwordEncoder.encode(registerDto.getPassword()))
+                    .build();
+
+            userRepository.save(user);
+
+            String jwtToken = jwtService.generateToken(user);
+
             return ResponseDto.builder()
-                    .message("Email already exists")
+                    .token(jwtToken)
+                    .success(true)
+                    .message("User registered successfully")
+                    .build();
+
+
+        } catch (DataIntegrityViolationException e) {
+            return ResponseDto.builder()
+                    .success(false)
+                    .message("Registration failed due to database error")
+                    .build();
+        }
+        catch (Exception e) {
+            return ResponseDto.builder()
+                    .success(false)
+                    .message("Registration failed unexpectedly")
                     .build();
         }
 
-        User user = User.builder()
-                .username(registerDto.getUsername())
-                .email(registerDto.getEmail())
-                .password(passwordEncoder.encode(registerDto.getPassword()))
-                .build();
 
-        userRepository.save(user);
 
-        String jwtToken = jwtService.generateToken(user);
 
-        return ResponseDto.builder()
-                .token(jwtToken)
-                .message("User registered successfully")
-                .build();
     }
 
     public ResponseDto login(LoginDto loginDto) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginDto.getEmail(),
-                        loginDto.getPassword()
-                )
-        );
 
-        User user = userRepository.findByEmail(loginDto.getEmail())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        if (!userRepository.existsByEmail(loginDto.getEmail())) {
+            return ResponseDto.builder()
+                    .success(false)
+                    .message("Email not registered")
+                    .build();
+        }
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginDto.getEmail(),
+                            loginDto.getPassword()
+                    )
+            );
 
-        String jwtToken = jwtService.generateToken(user);
+            User user = userRepository.findByEmail(loginDto.getEmail())
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        return ResponseDto.builder()
-                .token(jwtToken)
-                .message("Login successful")
-                .build();
+            String jwtToken = jwtService.generateToken(user);
+
+            return ResponseDto.builder()
+                    .token(jwtToken)
+                    .success(true)
+                    .message("Login successful")
+                    .build();
+        } catch (BadCredentialsException e) {
+            return ResponseDto.builder()
+                    .success(false)
+                    .message("Invalid password")
+                    .build();
+        }
+
     }
 }
