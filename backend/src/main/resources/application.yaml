@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: iotproject
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3366/iotProject?createDatabaseIfNotExist=true
+    username: root
+    password: root123
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQLDialect
+    generate-ddl: true
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8085
+
+jwt:
+  secret-key: v045kt3sQq/5FHzJ4TWc4EykRC9RMfCHzvECRMhjzu4=
+  expiration: 86400000
