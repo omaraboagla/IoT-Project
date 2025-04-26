@@ -3,12 +3,13 @@ package com.iotproject.iotproject.Service;
 import com.iotproject.iotproject.Constants.AuthMessages;
 import com.iotproject.iotproject.Dto.*;
 import com.iotproject.iotproject.Entity.User;
+import com.iotproject.iotproject.Exception.AuthServiceException;
 import com.iotproject.iotproject.Repo.UserRepository;
 import com.iotproject.iotproject.Config.JwtService;
-import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.mail.MailException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,35 +25,48 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final OtpService otpService;
 
-    public ResponseDto register(RegisterDto registerDto) {
+
+    public ResponseDto initiateSignup(SignupRequestDto dto) {
         try {
-            if (userRepository.existsByEmail(registerDto.getEmail())) {
+            if (userRepository.existsByEmail(dto.getEmail())) {
                 return buildErrorResponse(AuthMessages.EMAIL_EXISTS);
             }
 
-            User user = buildUserFromDto(registerDto);
+            otpService.sendOtp(dto.getEmail());
+            return buildSuccessResponse(null,AuthMessages.OTP_SENT);
+
+        } catch (MailException e) {
+            throw new AuthServiceException(AuthMessages.OTP_SEND_FAILED);
+        } catch (Exception e) {
+            log.error("Unexpected error during signup for {}: {}", e.getMessage());
+            log.error("Exception class: {}", e.getClass().getName());
+            log.debug("Full stack trace: ", e);
+            throw new AuthServiceException(AuthMessages.GENERIC_ERROR);
+        }
+    }
+
+    public ResponseDto completeRegistration(CompleteRegistrationDto dto) {
+        try {
+            if (!otpService.verifyOtp(dto.getEmail(), dto.getOtp())) {
+                throw new AuthServiceException(AuthMessages.INVALID_OTP);
+            }
+
+            User user = buildUserFromDto(dto);
             userRepository.save(user);
 
-            return buildSuccessResponse(
-                    jwtService.generateToken(user),
-                    AuthMessages.REGISTER_SUCCESS
-            );
+            String jwtToken = jwtService.generateToken(user);
+            return buildSuccessResponse(jwtToken , AuthMessages.REGISTER_SUCCESS);
 
         } catch (DataIntegrityViolationException e) {
-            return buildErrorResponse(AuthMessages.REGISTRATION_DB_ERROR);
-        } catch (ValidationException e) {
-            return buildErrorResponse(AuthMessages.VALIDATION_FAILED);
-        }
-        catch (Exception e) {
-            return buildErrorResponse(AuthMessages.REGISTRATION_UNEXPECTED_ERROR);
+            throw new AuthServiceException(AuthMessages.DATABASE_ERROR);
         }
     }
 
     public ResponseDto login(LoginDto loginDto) {
         try {
             if (!userRepository.existsByEmail(loginDto.getEmail())) {
-                log.warn("Login attempt with unregistered email: {}", loginDto.getEmail());
                 return buildErrorResponse(AuthMessages.EMAIL_NOT_REGISTERED);
             }
 
@@ -69,7 +83,7 @@ public class AuthService {
         }
     }
 
-    private User buildUserFromDto(RegisterDto dto) {
+    private User buildUserFromDto(CompleteRegistrationDto dto) {
         return User.builder()
                 .username(dto.getUsername())
                 .email(dto.getEmail())
