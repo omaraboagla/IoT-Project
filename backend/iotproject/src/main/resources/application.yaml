@@ -1,6 +1,40 @@
 spring:
   application:
     name: iotproject
+  cache:
+    type: simple
+    cache-names: otpCache
+#  mail:
+#    host: sandbox.smtp.mailtrap.io
+#    port: 2525
+#    username: 799d945c80548a
+#    password: 2c9206de5e33d2
+#    protocol: smtp
+#    properties:
+#      mail.smtp:
+#        auth: true
+#        starttls:
+#          enable: true
+#          required: true  # Critical addition
+#        ssl:
+#          trust: "sandbox.smtp.mailtrap.io"  # Whitelist Mailtrap
+#        connectiontimeout: 5000  # 5 seconds
+#        timeout: 5000
+#        writetimeout: 5000
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ay012941@gmail.com  # Your Gmail address
+    password: mygenqylrhpmqopa
+    protocol: smtp
+    properties:
+      mail.smtp:
+        auth: true
+        starttls:
+          enable: true
+          required: true
+        connectiontimeout: 5000
+        timeout: 5000
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/iotProject?createDatabaseIfNotExist=true}

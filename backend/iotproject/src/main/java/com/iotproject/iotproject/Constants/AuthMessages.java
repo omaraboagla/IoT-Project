@@ -6,6 +6,9 @@ public class AuthMessages {
     public static final String EMAIL_EXISTS = "Email already exists";
     public static final String REGISTRATION_DB_ERROR = "Registration failed due to database error";
     public static final String REGISTRATION_UNEXPECTED_ERROR = "Registration failed unexpectedly";
+    public static final String OTP_SENT = "OTP sent successfully";
+    public static final String OTP_SEND_FAILED = "Failed to send OTP";
+    public static final String INVALID_OTP = "Invalid OTP code";
 
     // Login messages
     public static final String LOGIN_SUCCESS = "Login successful";
@@ -15,4 +18,6 @@ public class AuthMessages {
 
     // Validation messages
     public static final String VALIDATION_FAILED = "Validation failed";
+    public static final String DATABASE_ERROR = "Database operation failed";
+    public static final String GENERIC_ERROR = "An error occurred";
 }
