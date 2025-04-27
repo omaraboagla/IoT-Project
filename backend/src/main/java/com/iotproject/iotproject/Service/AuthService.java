@@ -6,6 +6,7 @@ import com.iotproject.iotproject.Entity.User;
 import com.iotproject.iotproject.Exception.AuthServiceException;
 import com.iotproject.iotproject.Repo.UserRepository;
 import com.iotproject.iotproject.Config.JwtService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -49,6 +50,7 @@ public class AuthService {
 
     public ResponseDto completeRegistration(CompleteRegistrationDto dto) {
         try {
+
             if (!otpService.verifyOtp(dto.getEmail(), dto.getOtp())) {
                 throw new AuthServiceException(AuthMessages.INVALID_OTP);
             }
@@ -118,5 +120,17 @@ public class AuthService {
                 .success(false)
                 .message(message)
                 .build();
+    }
+
+    public ResponseDto verifyOtp(VerifyOtpDto dto) {
+        try {
+            if (!otpService.verifyOtp(dto.getEmail(), dto.getOtp())) {
+                return buildErrorResponse(AuthMessages.INVALID_OTP);
+            }
+            return buildSuccessResponse(null, AuthMessages.CORRECT_OTP);
+        } catch (Exception e) {
+            log.error("Error verifying OTP: {}", e.getMessage());
+            throw new AuthServiceException(AuthMessages.GENERIC_ERROR);
+        }
     }
 }

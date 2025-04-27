@@ -19,4 +19,5 @@ public class CompleteRegistrationDto {
 
     @NotBlank
     private String otp;
+
 }

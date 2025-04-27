@@ -60,4 +60,14 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
     }
+
+    @PostMapping("/verify-otp")
+    public ResponseEntity<ResponseDto> verifyOtp(@RequestBody @Valid VerifyOtpDto dto) {
+        ResponseDto response = authService.verifyOtp(dto);
+        if (response.isSuccess()) {
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
 }

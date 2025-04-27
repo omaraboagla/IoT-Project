@@ -20,4 +20,5 @@ public class AuthMessages {
     public static final String VALIDATION_FAILED = "Validation failed";
     public static final String DATABASE_ERROR = "Database operation failed";
     public static final String GENERIC_ERROR = "An error occurred";
+    public static final String CORRECT_OTP = "Correct OTP";
 }
