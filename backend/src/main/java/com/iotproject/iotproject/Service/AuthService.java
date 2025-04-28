@@ -41,7 +41,7 @@ public class AuthService {
             }
 
             otpService.sendOtp(dto.getEmail());
-            return buildSuccessResponse(null,AuthMessages.OTP_SENT);
+            return buildSuccessResponse(null, AuthMessages.OTP_SENT);
 
         } catch (MailException e) {
             throw new AuthServiceException(AuthMessages.OTP_SEND_FAILED);
@@ -64,7 +64,7 @@ public class AuthService {
             userRepository.save(user);
 
             String jwtToken = jwtService.generateToken(user);
-            return buildSuccessResponse(jwtToken , AuthMessages.REGISTER_SUCCESS);
+            return buildSuccessResponse(jwtToken, AuthMessages.REGISTER_SUCCESS);
 
         } catch (DataIntegrityViolationException e) {
             throw new AuthServiceException(AuthMessages.DATABASE_ERROR);
@@ -139,82 +139,5 @@ public class AuthService {
         }
 
 
-    public ResponseDto register(RegisterDto registerDto) {
-        try {
-            if (userRepository.existsByEmail(registerDto.getEmail())) {
-                return ResponseDto.builder()
-                        .success(false)
-                        .message("Email already exists")
-                        .build();
-            }
-
-            User user = User.builder()
-                    .username(registerDto.getUsername())
-                    .email(registerDto.getEmail())
-                    .password(passwordEncoder.encode(registerDto.getPassword()))
-                    .build();
-
-            userRepository.save(user);
-
-            String jwtToken = jwtService.generateToken(user);
-
-            return ResponseDto.builder()
-                    .token(jwtToken)
-                    .success(true)
-                    .message("User registered successfully")
-                    .build();
-
-
-        } catch (DataIntegrityViolationException e) {
-            return ResponseDto.builder()
-                    .success(false)
-                    .message("Registration failed due to database error")
-                    .build();
-        }
-        catch (Exception e) {
-            return ResponseDto.builder()
-                    .success(false)
-                    .message("Registration failed unexpectedly")
-                    .build();
-        }
-
-
-
-
     }
-
-    public ResponseDto login(LoginDto loginDto) {
-
-        if (!userRepository.existsByEmail(loginDto.getEmail())) {
-            return ResponseDto.builder()
-                    .success(false)
-                    .message("Email not registered")
-                    .build();
-        }
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            loginDto.getEmail(),
-                            loginDto.getPassword()
-                    )
-            );
-
-            User user = userRepository.findByEmail(loginDto.getEmail())
-                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
-            String jwtToken = jwtService.generateToken(user);
-
-            return ResponseDto.builder()
-                    .token(jwtToken)
-                    .success(true)
-                    .message("Login successful")
-                    .build();
-        } catch (BadCredentialsException e) {
-            return ResponseDto.builder()
-                    .success(false)
-                    .message("Invalid password")
-                    .build();
-        }
-
-    
 }

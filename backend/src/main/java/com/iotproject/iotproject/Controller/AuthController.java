@@ -48,14 +48,6 @@ public class AuthController {
     }
 
  
-    @PostMapping("/register")
-    public ResponseEntity<ResponseDto> register(@RequestBody RegisterDto registerDto) {
-        ResponseDto response = authService.register(registerDto);
-
-        return ResponseEntity
-                .status(response.isSuccess() ? HttpStatus.CREATED : HttpStatus.CONFLICT)
-                .body(response);
-    }
 
     @PostMapping("/login")
     public ResponseEntity<ResponseDto> login(@RequestBody LoginDto loginDto) {

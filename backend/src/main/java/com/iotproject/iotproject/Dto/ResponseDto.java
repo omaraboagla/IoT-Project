@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)  // Excludes null fields from JSON
 
+
 public class ResponseDto {
     private boolean success;
 

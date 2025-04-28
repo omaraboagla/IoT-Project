@@ -35,7 +35,7 @@ public class ProfileController {
     @PostMapping("/forgot-password")
     public ResponseEntity<String> forgotPassword(@RequestBody ForgotPasswordRequestDto request) {
         String email = request.getEmail();
-        otpService.generateAndSendOtp(email);
+        otpService.sendOtp(email);
         return ResponseEntity.ok("OTP sent to your email.");
     }
 

@@ -9,6 +9,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Random;
 
 @Service
@@ -16,6 +17,7 @@ import java.util.Random;
 public class OtpService {
     private final JavaMailSender mailSender;
     private final CacheManager cacheManager;
+    private Map<String, String> otpStorage;
 
     // Generate and send OTP
     public void sendOtp(String email) {
@@ -54,5 +56,8 @@ public class OtpService {
         message.setSubject(subject);
         message.setText(text);
         mailSender.send(message);
+    }
+    public void clearOtp(String email) {
+        otpStorage.remove(email);
     }
 }
