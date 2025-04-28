@@ -64,3 +64,4 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         return path.startsWith("/api/auth/");
     }
 }
+}

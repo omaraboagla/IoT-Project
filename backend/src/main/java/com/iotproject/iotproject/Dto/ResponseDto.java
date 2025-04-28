@@ -14,6 +14,9 @@ import lombok.NoArgsConstructor;
 
 public class ResponseDto {
     private boolean success;
+
+public class ResponseDto {
+    private boolean success;
     private String token;
     private String message;
 }

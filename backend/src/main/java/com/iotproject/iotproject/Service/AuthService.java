@@ -11,6 +11,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.mail.MailException;
+import com.iotproject.iotproject.Dto.LoginDto;
+import com.iotproject.iotproject.Dto.RegisterDto;
+import com.iotproject.iotproject.Dto.ResponseDto;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,7 +24,9 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+
 public class AuthService {
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -132,5 +137,84 @@ public class AuthService {
             log.error("Error verifying OTP: {}", e.getMessage());
             throw new AuthServiceException(AuthMessages.GENERIC_ERROR);
         }
+
+
+    public ResponseDto register(RegisterDto registerDto) {
+        try {
+            if (userRepository.existsByEmail(registerDto.getEmail())) {
+                return ResponseDto.builder()
+                        .success(false)
+                        .message("Email already exists")
+                        .build();
+            }
+
+            User user = User.builder()
+                    .username(registerDto.getUsername())
+                    .email(registerDto.getEmail())
+                    .password(passwordEncoder.encode(registerDto.getPassword()))
+                    .build();
+
+            userRepository.save(user);
+
+            String jwtToken = jwtService.generateToken(user);
+
+            return ResponseDto.builder()
+                    .token(jwtToken)
+                    .success(true)
+                    .message("User registered successfully")
+                    .build();
+
+
+        } catch (DataIntegrityViolationException e) {
+            return ResponseDto.builder()
+                    .success(false)
+                    .message("Registration failed due to database error")
+                    .build();
+        }
+        catch (Exception e) {
+            return ResponseDto.builder()
+                    .success(false)
+                    .message("Registration failed unexpectedly")
+                    .build();
+        }
+
+
+
+
     }
+
+    public ResponseDto login(LoginDto loginDto) {
+
+        if (!userRepository.existsByEmail(loginDto.getEmail())) {
+            return ResponseDto.builder()
+                    .success(false)
+                    .message("Email not registered")
+                    .build();
+        }
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginDto.getEmail(),
+                            loginDto.getPassword()
+                    )
+            );
+
+            User user = userRepository.findByEmail(loginDto.getEmail())
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+            String jwtToken = jwtService.generateToken(user);
+
+            return ResponseDto.builder()
+                    .token(jwtToken)
+                    .success(true)
+                    .message("Login successful")
+                    .build();
+        } catch (BadCredentialsException e) {
+            return ResponseDto.builder()
+                    .success(false)
+                    .message("Invalid password")
+                    .build();
+        }
+
+    
 }
