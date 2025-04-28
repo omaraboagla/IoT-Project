@@ -33,6 +33,7 @@ public class User implements UserDetails {
     @Column(nullable = false, length = 50 , unique = true)
     private String email;
 
+
     @Override
     public String getUsername() {
         return this.email; // MUST return email for authentication to work
@@ -66,8 +67,9 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
-
-
 }
+
+
+
+
 

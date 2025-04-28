@@ -1,70 +1,58 @@
 package com.iotproject.iotproject.Service;
 
-import com.iotproject.iotproject.Repo.UserRepository;
-import jakarta.annotation.PostConstruct;
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-
 
 @Service
+@RequiredArgsConstructor
 public class OtpService {
+    private final JavaMailSender mailSender;
+    private final CacheManager cacheManager;
 
-    @Autowired
-    private JavaMailSender mailSender;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    private Map<String, String> otpStorage;
-
-    @PostConstruct
-    public void init() {
-        otpStorage = new HashMap<>();
-    }
-
-    public void generateAndSendOtp(String email) {
-        if (!userRepository.existsByEmail(email)) {
-            throw new IllegalArgumentException("Email not found");
-        }
-
-        String otp = String.format("%06d", new Random().nextInt(1000000));
-        otpStorage.put(email, otp);
-        sendEmail(email, otp);
-    }
-
-    private void sendEmail(String toEmail, String otp) {
+    // Generate and send OTP
+    public void sendOtp(String email) {
         try {
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            String otp = generateOtp();
+            Cache cache = cacheManager.getCache("otpCache");
+            cache.put(email, otp);
 
-            helper.setTo(toEmail);
-            helper.setSubject("Password Reset OTP");
-            helper.setText("Your OTP for password reset is: " + otp);
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom("no-reply@iotproject.com");  // Required field
+            message.setTo(email);
+            message.setSubject("Your OTP Code");
+            message.setText("Your verification code is: " + otp);
 
             mailSender.send(message);
-        } catch (MessagingException e) {
-            throw new RuntimeException("Failed to send email", e);
+
+        } catch (Exception e) {
+            throw new RuntimeException("OTP sending failed: " + e.getMessage());
         }
     }
 
-    public boolean verifyOtp(String email, String otp) {
-        return otpStorage.containsKey(email) && otpStorage.get(email).equals(otp);
+    // Verify OTP
+    public boolean verifyOtp(String email, String userEnteredOtp) {
+        Cache cache = cacheManager.getCache("otpCache");
+        String storedOtp = cache.get(email, String.class);
+        return storedOtp != null && storedOtp.equals(userEnteredOtp);
     }
 
-    public void clearOtp(String email) {
-        otpStorage.remove(email);
+    private String generateOtp() {
+        return String.format("%06d", new Random().nextInt(999999));
+    }
+
+    private void sendEmail(String to, String subject, String text) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(text);
+        mailSender.send(message);
     }
 }

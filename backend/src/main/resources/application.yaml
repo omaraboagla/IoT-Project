@@ -1,11 +1,30 @@
 spring:
   application:
     name: iotproject
+  cache:
+    type: simple
+    cache-names: otpCache
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ay012941@gmail.com
+    password: mygenqylrhpmqopa
+    protocol: smtp
+    properties:
+      mail.smtp:
+        auth: true
+        starttls:
+          enable: true
+          required: true
+        connectiontimeout: 5000
+        timeout: 5000
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3366/iotProject?createDatabaseIfNotExist=true
-    username: root
-    password: root123
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/iotProject?createDatabaseIfNotExist=true}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:root123}
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -15,22 +34,13 @@ spring:
     properties:
       hibernate:
         format_sql: true
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: ${EMAIL_USERNAME}
-    password: ${EMAIL_PASSWORD}
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-
-
 
 server:
-  port: 8085
+  port: ${SERVER_PORT:8080}
+
+
+
+
 
 jwt:
   secret-key: v045kt3sQq/5FHzJ4TWc4EykRC9RMfCHzvECRMhjzu4=
