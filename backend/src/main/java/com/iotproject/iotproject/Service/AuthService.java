@@ -11,6 +11,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.mail.MailException;
+import com.iotproject.iotproject.Dto.LoginDto;
+import com.iotproject.iotproject.Dto.RegisterDto;
+import com.iotproject.iotproject.Dto.ResponseDto;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,7 +24,9 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+
 public class AuthService {
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -36,7 +41,7 @@ public class AuthService {
             }
 
             otpService.sendOtp(dto.getEmail());
-            return buildSuccessResponse(null,AuthMessages.OTP_SENT);
+            return buildSuccessResponse(null, AuthMessages.OTP_SENT);
 
         } catch (MailException e) {
             throw new AuthServiceException(AuthMessages.OTP_SEND_FAILED);
@@ -59,7 +64,7 @@ public class AuthService {
             userRepository.save(user);
 
             String jwtToken = jwtService.generateToken(user);
-            return buildSuccessResponse(jwtToken , AuthMessages.REGISTER_SUCCESS);
+            return buildSuccessResponse(jwtToken, AuthMessages.REGISTER_SUCCESS);
 
         } catch (DataIntegrityViolationException e) {
             throw new AuthServiceException(AuthMessages.DATABASE_ERROR);
@@ -132,5 +137,7 @@ public class AuthService {
             log.error("Error verifying OTP: {}", e.getMessage());
             throw new AuthServiceException(AuthMessages.GENERIC_ERROR);
         }
+
+
     }
 }

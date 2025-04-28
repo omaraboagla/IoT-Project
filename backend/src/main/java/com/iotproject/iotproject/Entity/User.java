@@ -33,10 +33,15 @@ public class User implements UserDetails {
     @Column(nullable = false, length = 50 , unique = true)
     private String email;
 
-//    @Override
-//    public String getUsername() {
-//        return this.email; // MUST return email for authentication to work
-//    }
+
+    @Override
+    public String getUsername() {
+        return this.email; // MUST return email for authentication to work
+    }
+    public String getFullName(){
+        return  this.username;
+    }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -63,3 +68,8 @@ public class User implements UserDetails {
         return true;
     }
 }
+
+
+
+
+
