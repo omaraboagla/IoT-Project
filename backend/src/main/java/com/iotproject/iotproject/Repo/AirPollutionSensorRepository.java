@@ -4,6 +4,8 @@ import com.iotproject.iotproject.Entity.AirPollutionSensor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
+
 @Repository
-public interface AirPollutionSensorRepository extends JpaRepository<AirPollutionSensor, Long> {
+public interface AirPollutionSensorRepository extends JpaRepository<AirPollutionSensor, UUID> {
 }
