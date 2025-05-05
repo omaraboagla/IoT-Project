@@ -21,7 +21,6 @@ public class TrafficSensor {
     @NotBlank(message = "Location must not be empty")
     private String location;
 
-    @NotNull(message = "Timestamp must not be null")
     @PastOrPresent(message = "Timestamp must not be in the future")
     private LocalDateTime timestamp;
 
