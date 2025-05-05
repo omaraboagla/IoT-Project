@@ -21,7 +21,6 @@ public class AirPollutionSensor {
     @NotBlank(message = "Location must not be empty")
     private String location;
 
-    @NotNull(message = "Timestamp must not be null")
     @PastOrPresent(message = "Timestamp cannot be in the future")
     private LocalDateTime timestamp;
 
