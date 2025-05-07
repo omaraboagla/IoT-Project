@@ -21,7 +21,6 @@ public class StreetLightSensor {
     @NotBlank
     private String location;
 
-    @NotNull(message = "Timestamp must not be null")
     @PastOrPresent
     private LocalDateTime timestamp;
 

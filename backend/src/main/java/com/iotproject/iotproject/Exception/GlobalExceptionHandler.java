@@ -28,6 +28,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseDto> handleAuthServiceException(AuthServiceException ex) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ResponseDto> handleRuntimeException(RuntimeException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ResponseDto.builder()
                         .success(false)
                         .message(ex.getMessage())
