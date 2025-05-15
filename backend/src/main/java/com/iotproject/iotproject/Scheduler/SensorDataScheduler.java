@@ -15,7 +15,7 @@ public class SensorDataScheduler {
     private static final String STREET_LIGHT_SENSOR_API_URL = "http://localhost:8080/api/sensor/street-light/generate";
     private static final String AIR_POLLUTION_SENSOR_API_URL = "http://localhost:8080/api/sensor/air-pollution/generate";
 
-    @Scheduled(cron = "0 */5 * * * *") // Every 5 minutes
+    @Scheduled(cron = "*/10 * * * * *") // Every 5 minutes
     public void generateAndSaveSensorData() {
         restTemplate.postForObject(TRAFFIC_SENSOR_API_URL, null, String.class);
         System.out.println("Traffic sensor data generation triggered by scheduler.");
