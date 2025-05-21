@@ -1,0 +1,258 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 266338304 bytes. Error detail: G1 virtual space
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   This process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+#   JVM is running with Zero Based Compressed Oops mode in which the Java heap is
+#     placed in the first 32GB address space. The Java Heap base address is the
+#     maximum limit for the native heap growth. Please use -XX:HeapBaseMinAddress
+#     to set the Java Heap base and to place the Java Heap above 32GB virtual address.
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (os_windows.cpp:3898), pid=25668, tid=20536
+#
+# JRE version:  (21.0.6+8) (build )
+# Java VM: OpenJDK 64-Bit Server VM (21.0.6+8-b631.39, mixed mode, sharing, tiered, compressed oops, compressed class ptrs, g1 gc, windows-amd64)
+# No core dump will be written. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -Djava.io.tmpdir=C:\Users\Ahmed Yasser\AppData\Local\JetBrains\IdeaIC2024.3\tmp\statistics-uploader com.intellij.internal.statistic.uploader.EventLogUploader --ide-token C:\Users\Ahmed Yasser\AppData\Local\JetBrains\IdeaIC2024.3\token --recorders FUS;MP;IJ_MAP;ML --device-fus 19032319ef9774b-3243-4893-81f2-99131a98f95b --bucket-fus 226 --machine-fus e26bd87a81bc8711c840bb9f6e9228eebd53b16986da08e0011ad8a7d9cf30bf --id-revision-fus 0 --files-fus C:\Users\Ahmed Yasser\AppData\Local\JetBrains\IdeaIC2024.3\event-log-data\logs\FUS\e776-43a0-bfe0-19e9b49660c9-243.24978.46-release.log --escape-fus false --device-mp 240225114a0b0eb-3da4-4c2c-82a2-e2a5ddecbcb6 --bucket-mp 172 --machine-mp f2be714d64ebbf934cc24977dc4027f801ea31d83355637d0816e521a49f3ab2 --id-revision-mp 0 --files-mp C:\Users\Ahmed Yasser\AppData\Local\JetBrains\IdeaIC2024.3\event-log-data\logs\MP\aa81-48dd-bd76-e1ea855c9acd-243.24978.46-release.log --escape-mp false --device-ij_map 19032319ef9774b-3243-4893-81f2-99131a98f95b --bucket-ij_map 226 --machine-ij_map e26bd87a81bc8711c840bb9f6e9228eebd53b16986da08e0011ad8a7d9cf30bf --id-revision-ij_map 0 --files-ij_map C:\Users\Ahmed Yasser\AppData\Local\JetBrains\IdeaIC2024.3\event-log-data\logs\IJ_MAP\1106-47e9-9fd1-4f97702ad861-243.24978.46-release.log;C:\Users\Ahmed Yasser\AppData\Local\JetBrains\IdeaIC2024.3\event-log-data\logs\IJ_MAP\111f-4978-b99c-2a8a0bff350e-243.24978.46-release.log;C:\Users\Ahmed Yasser\AppData\Local\JetBrains\IdeaIC2024.3\event-log-data\logs\IJ_MAP\1874-4c98-9e28-ea96120a2cb0-243.24978.46-release.log;C:\Users\Ahmed Yasser\AppData\Local\JetBrains\IdeaIC2024.3\event-log-data\logs\IJ_MAP\2e1c-4294-a705-ec1671e17489-243.24978.46-release.log;C:\Users\Ahmed Yasser\AppData\Local\JetBrains\IdeaIC2024.3\event-log-data\logs\IJ_MAP\367f-4fbe-b5e9-35b9e1c64ddf-243.24978.46-release.log --escape-ij_map false --device-ml 19032319ef9774b-3243-4893-81f2-99131a98f95b --bucket-ml 226 --machine-ml e26bd87a81bc8711c840bb9f6e9228eebd53b16986da08e0011ad8a7d9cf30bf --id-revision-ml 0 --files-ml C:\Users\Ahmed Yasser\AppData\Local\JetBrains\IdeaIC2024.3\event-log-data\logs\ML\3ade-4e10-9288-f55b4ca8de93-243.24978.46-release.log --escape-ml false --url https://resources.jetbrains.com/storage/fus/config/v4/%s/%s.json --product IC --product-version 2024.3.3 --baseline-version 243 --user-agent IntelliJ IDEA/243.24978.46 --extra-headers 
+
+Host: Intel(R) Core(TM) i7-10750H CPU @ 2.60GHz, 12 cores, 15G,  Windows 11 , 64 bit Build 22621 (10.0.22621.5124)
+Time: Sun May 11 07:01:32 2025 Egypt Daylight Time elapsed time: 0.024776 seconds (0d 0h 0m 0s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x000001e61e8e6fa0):  JavaThread "Unknown thread" [_thread_in_vm, id=20536, stack(0x000000138f500000,0x000000138f600000) (1024K)]
+
+Stack: [0x000000138f500000,0x000000138f600000]
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x6e5d39]
+V  [jvm.dll+0x8c4133]
+V  [jvm.dll+0x8c668e]
+V  [jvm.dll+0x8c6d73]
+V  [jvm.dll+0x288f76]
+V  [jvm.dll+0x6e25f5]
+V  [jvm.dll+0x6d60aa]
+V  [jvm.dll+0x3635bb]
+V  [jvm.dll+0x36b186]
+V  [jvm.dll+0x3bd4b6]
+V  [jvm.dll+0x3bd788]
+V  [jvm.dll+0x335d2c]
+V  [jvm.dll+0x336a1b]
+V  [jvm.dll+0x88b589]
+V  [jvm.dll+0x3ca688]
+V  [jvm.dll+0x874698]
+V  [jvm.dll+0x45f04e]
+V  [jvm.dll+0x460d31]
+C  [jli.dll+0x52ab]
+C  [ucrtbase.dll+0x29333]
+C  [KERNEL32.DLL+0x1259d]
+C  [ntdll.dll+0x5af38]
+
+
+---------------  P R O C E S S  ---------------
+
+Threads class SMR info:
+_java_thread_list=0x00007ffc45aaa148, length=0, elements={
+}
+
+Java Threads: ( => current thread )
+Total: 0
+
+Other Threads:
+  0x000001e61e94f200 WorkerThread "GC Thread#0"                     [id=14856, stack(0x000000138f600000,0x000000138f700000) (1024K)]
+  0x000001e61e960650 ConcurrentGCThread "G1 Main Marker"            [id=20096, stack(0x000000138f700000,0x000000138f800000) (1024K)]
+  0x000001e61e962220 WorkerThread "G1 Conc#0"                       [id=9948, stack(0x000000138f800000,0x000000138f900000) (1024K)]
+
+[error occurred during error reporting (printing all threads), id 0xc0000005, EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x00007ffc45198de7]
+VM state: not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x00007ffc45b1eb30] Heap_lock - owner thread: 0x000001e61e8e6fa0
+
+Heap address: 0x0000000702a00000, size: 4054 MB, Compressed Oops mode: Zero based, Oop shift amount: 3
+
+CDS archive(s) mapped at: [0x0000000000000000-0x0000000000000000-0x0000000000000000), size 0, SharedBaseAddress: 0x0000000800000000, ArchiveRelocationMode: 1.
+Narrow klass base: 0x0000000000000000, Narrow klass shift: 0, Narrow klass range: 0x0
+
+GC Precious Log:
+ CardTable entry size: 512
+ Card Set container configuration: InlinePtr #cards 4 size 8 Array Of Cards #cards 16 size 48 Howl #buckets 8 coarsen threshold 3686 Howl Bitmap #cards 512 size 80 coarsen threshold 460 Card regions per heap region 1 cards per card region 4096
+
+Heap:
+ garbage-first heap   total 0K, used 0K [0x0000000702a00000, 0x0000000800000000)
+  region size 2048K, 0 young (0K), 0 survivors (0K)
+ Metaspace       used 0K, committed 0K, reserved 0K
+  class space    used 0K, committed 0K, reserved 0K
+
+Heap Regions: E=young(eden), S=young(survivor), O=old, HS=humongous(starts), HC=humongous(continues), CS=collection set, F=free, TAMS=top-at-mark-start, PB=parsable bottom
+
+Card table byte_map: [0x000001e6325b0000,0x000001e632da0000] _byte_map_base: 0x000001e62ed9b000
+
+Marking Bits: (CMBitMap*) 0x000001e61e94f810
+ Bits: [0x000001e632da0000, 0x000001e636cf8000)
+
+GC Heap History (0 events):
+No events
+
+Dll operation events (1 events):
+Event: 0.018 Loaded shared library C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.3.3\jbr\bin\java.dll
+
+Deoptimization events (0 events):
+No events
+
+Classes loaded (0 events):
+No events
+
+Classes unloaded (0 events):
+No events
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+ZGC Phase Switch (0 events):
+No events
+
+VM Operations (0 events):
+No events
+
+Memory protections (0 events):
+No events
+
+Nmethod flushes (0 events):
+No events
+
+Events (0 events):
+No events
+
+
+Dynamic libraries:
+0x00007ff6197f0000 - 0x00007ff6197fa000 	C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.3.3\jbr\bin\java.exe
+0x00007ffcf8f70000 - 0x00007ffcf9187000 	C:\WINDOWS\SYSTEM32\ntdll.dll
+0x00007ffcf7f70000 - 0x00007ffcf8034000 	C:\WINDOWS\System32\KERNEL32.DLL
+0x00007ffcf6420000 - 0x00007ffcf67f3000 	C:\WINDOWS\System32\KERNELBASE.dll
+0x00007ffcf6800000 - 0x00007ffcf6911000 	C:\WINDOWS\System32\ucrtbase.dll
+0x00007ffceb860000 - 0x00007ffceb878000 	C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.3.3\jbr\bin\jli.dll
+0x00007ffcd68f0000 - 0x00007ffcd690b000 	C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.3.3\jbr\bin\VCRUNTIME140.dll
+0x00007ffcf6fa0000 - 0x00007ffcf7151000 	C:\WINDOWS\System32\USER32.dll
+0x00007ffcdd7a0000 - 0x00007ffcdda38000 	C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.22621.5124_none_270e8f4f7386d69d\COMCTL32.dll
+0x00007ffcf6a40000 - 0x00007ffcf6a66000 	C:\WINDOWS\System32\win32u.dll
+0x00007ffcf8c00000 - 0x00007ffcf8ca7000 	C:\WINDOWS\System32\msvcrt.dll
+0x00007ffcf7690000 - 0x00007ffcf76b9000 	C:\WINDOWS\System32\GDI32.dll
+0x00007ffcf6a70000 - 0x00007ffcf6b8b000 	C:\WINDOWS\System32\gdi32full.dll
+0x00007ffcf6920000 - 0x00007ffcf69ba000 	C:\WINDOWS\System32\msvcp_win.dll
+0x00007ffcf8050000 - 0x00007ffcf8081000 	C:\WINDOWS\System32\IMM32.DLL
+0x00007ffcee520000 - 0x00007ffcee52c000 	C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.3.3\jbr\bin\vcruntime140_1.dll
+0x00007ffc92f90000 - 0x00007ffc9301d000 	C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.3.3\jbr\bin\msvcp140.dll
+0x00007ffc44e50000 - 0x00007ffc45c11000 	C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.3.3\jbr\bin\server\jvm.dll
+0x00007ffcf8a30000 - 0x00007ffcf8ae1000 	C:\WINDOWS\System32\ADVAPI32.dll
+0x00007ffcf8120000 - 0x00007ffcf81c8000 	C:\WINDOWS\System32\sechost.dll
+0x00007ffcf63f0000 - 0x00007ffcf6418000 	C:\WINDOWS\System32\bcrypt.dll
+0x00007ffcf8d30000 - 0x00007ffcf8e44000 	C:\WINDOWS\System32\RPCRT4.dll
+0x00007ffcf6c60000 - 0x00007ffcf6cd1000 	C:\WINDOWS\System32\WS2_32.dll
+0x00007ffcf5220000 - 0x00007ffcf526d000 	C:\WINDOWS\SYSTEM32\POWRPROF.dll
+0x00007ffceb7c0000 - 0x00007ffceb7f4000 	C:\WINDOWS\SYSTEM32\WINMM.dll
+0x00007ffcebad0000 - 0x00007ffcebada000 	C:\WINDOWS\SYSTEM32\VERSION.dll
+0x00007ffcf5110000 - 0x00007ffcf5123000 	C:\WINDOWS\SYSTEM32\UMPDC.dll
+0x00007ffcf50f0000 - 0x00007ffcf5108000 	C:\WINDOWS\SYSTEM32\kernel.appcore.dll
+0x00007ffceb840000 - 0x00007ffceb84a000 	C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.3.3\jbr\bin\jimage.dll
+0x00007ffcf3470000 - 0x00007ffcf36a2000 	C:\WINDOWS\SYSTEM32\DBGHELP.DLL
+0x00007ffcf8610000 - 0x00007ffcf89a2000 	C:\WINDOWS\System32\combase.dll
+0x00007ffcf8e50000 - 0x00007ffcf8f27000 	C:\WINDOWS\System32\OLEAUT32.dll
+0x00007ffcce7d0000 - 0x00007ffcce802000 	C:\WINDOWS\SYSTEM32\dbgcore.DLL
+0x00007ffcf69c0000 - 0x00007ffcf6a3b000 	C:\WINDOWS\System32\bcryptPrimitives.dll
+0x00007ffcd6590000 - 0x00007ffcd65b0000 	C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.3.3\jbr\bin\java.dll
+
+dbghelp: loaded successfully - version: 4.0.5 - missing functions: none
+symbol engine: initialized successfully - sym options: 0x614 - pdb path: .;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.3.3\jbr\bin;C:\WINDOWS\SYSTEM32;C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.22621.5124_none_270e8f4f7386d69d;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.3.3\jbr\bin\server
+
+VM Arguments:
+jvm_args: -Djava.io.tmpdir=C:\Users\Ahmed Yasser\AppData\Local\JetBrains\IdeaIC2024.3\tmp\statistics-uploader 
+java_command: com.intellij.internal.statistic.uploader.EventLogUploader --ide-token C:\Users\Ahmed Yasser\AppData\Local\JetBrains\IdeaIC2024.3\token --recorders FUS;MP;IJ_MAP;ML --device-fus 19032319ef9774b-3243-4893-81f2-99131a98f95b --bucket-fus 226 --machine-fus e26bd87a81bc8711c840bb9f6e9228eebd53b16986da08e0011ad8a7d9cf30bf --id-revision-fus 0 --files-fus C:\Users\Ahmed Yasser\AppData\Local\JetBrains\IdeaIC2024.3\event-log-data\logs\FUS\e776-43a0-bfe0-19e9b49660c9-243.24978.46-release.log --escape-fus false --device-mp 240225114a0b0eb-3da4-4c2c-82a2-e2a5ddecbcb6 --bucket-mp 172 --machine-mp f2be714d64ebbf934cc24977dc4027f801ea31d83355637d0816e521a49f3ab2 --id-revision-mp 0 --files-mp C:\Users\Ahmed Yasser\AppData\Local\JetBrains\IdeaIC2024.3\event-log-data\logs\MP\aa81-48dd-bd76-e1ea855c9acd-243.24978.46-release.log --escape-mp false --device-ij_map 19032319ef9774b-3243-4893-81f2-99131a98f95b --bucket-ij_map 226 --machine-ij_map e26bd87a81bc8711c840bb9f6e9228eebd53b16986da08e0011ad8a7d9cf30bf --id-revision-ij_map 0 --files-ij_map C:\Users\Ahmed Yasser\AppData\Local\JetBrains\IdeaIC2024.3\event-log-data\logs\IJ_MAP\1106-47e9-9fd1-4f97702ad861-243.24978.46-release.log;C:\Users\Ahmed Yasser\AppData\Local\JetBrains\IdeaIC2024.3\event-log-data\logs\IJ_MAP\111f-4978-b99c-2a8a0bff350e-243.24978.46-release.log;C:\Users\Ahmed Yasser\AppData\Local\JetBrains\IdeaIC2024.3\event-log-data\logs\IJ_MAP\1874-4c98-9e28-ea96120a2cb0-243.24978.46-release.log;C:\Users\Ahmed Yasser\AppData\Local\JetBrains\IdeaIC2024.3\event-log-data\logs\IJ_MAP\2e1c-4294-a705-ec1671e17489-243.24978.46-release.log;C:\Users\Ahmed Yasser\AppData\Local\JetBrains\IdeaIC2024.3\event-log-data\logs\IJ_MAP\367f-4fbe-b5e9-35b9e1c64ddf-243.24978.46-release.log --escape-ij_map false --device-ml 19032319ef9774b-3243-4893-81f2-99131a98f95b --bucket-ml 226 --machine-ml e26bd87a81bc8711c840bb9f6e9228eebd53b16986da08e0011ad8a7d9cf30bf --id-revision-ml 0 --files-ml C:\Users\Ahmed Yasser\AppData\Local\JetBrains\Idea
+java_class_path (initial): C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.3.3\lib\util-8.jar;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.3.3\lib\annotations.jar;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.3.3\lib\lib-client.jar;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.3.3\lib\stats.jar
+Launcher Type: SUN_STANDARD
+
+[Global flags]
+     intx CICompilerCount                          = 4                                         {product} {ergonomic}
+     uint ConcGCThreads                            = 3                                         {product} {ergonomic}
+     uint G1ConcRefinementThreads                  = 10                                        {product} {ergonomic}
+   size_t G1HeapRegionSize                         = 2097152                                   {product} {ergonomic}
+    uintx GCDrainStackTargetSize                   = 64                                        {product} {ergonomic}
+   size_t InitialHeapSize                          = 266338304                                 {product} {ergonomic}
+   size_t MarkStackSize                            = 4194304                                   {product} {ergonomic}
+   size_t MaxHeapSize                              = 4250927104                                {product} {ergonomic}
+   size_t MinHeapDeltaBytes                        = 2097152                                   {product} {ergonomic}
+   size_t MinHeapSize                              = 8388608                                   {product} {ergonomic}
+    uintx NonNMethodCodeHeapSize                   = 5839372                                {pd product} {ergonomic}
+    uintx NonProfiledCodeHeapSize                  = 122909434                              {pd product} {ergonomic}
+    uintx ProfiledCodeHeapSize                     = 122909434                              {pd product} {ergonomic}
+    uintx ReservedCodeCacheSize                    = 251658240                              {pd product} {ergonomic}
+     bool SegmentedCodeCache                       = true                                      {product} {ergonomic}
+   size_t SoftMaxHeapSize                          = 4250927104                             {manageable} {ergonomic}
+     bool UseCompressedOops                        = true                           {product lp64_product} {ergonomic}
+     bool UseG1GC                                  = true                                      {product} {ergonomic}
+     bool UseLargePagesIndividualAllocation        = false                                  {pd product} {ergonomic}
+
+Logging:
+Log output configuration:
+ #0: stdout all=warning uptime,level,tags foldmultilines=false
+ #1: stderr all=off uptime,level,tags foldmultilines=false
+
+Environment Variables:
+PATH=C:\Program Files (x86)\VMware\VMware Workstation\bin\;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.7\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.7\libnvvp;C:\Program Files\Java\jdk-17;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Python312\Scripts\;C:\Python312\;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\Microsoft MPI\Bin\;C:\Python37-32\Scripts\;C:\Python37-32\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\dotnet\;C:\Program Files (x86)\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files\Azure Data Studio\bin;C:\Program Files (x86)\Microsoft SQL Server\160\Tools\Binn\;C:\Program Files\Microsoft SQL Server\160\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\Microsoft SQL Server\160\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\160\DTS\Binn\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\ProgramData\chocolatey\bin;C:\Program Files\NVIDIA Corporation\Nsight Compute 2022.2.1\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\CMake\bin;D:\dartsdk-windows-x64-release\dart-sdk\bin;C:\Program Files\nodejs\;C:\Users\Ahmed Yasser\AppData\Local\Pub\Cache\bin;C:\Program Files\Amazon\AWSCLIV2\;C:\Users\Ahmed Yasser\Dropbox\PC\Downloads\apache-maven-3.8.8-bin\apache-maven-3.8.8\bin;C:\Program Files\Docker\Docker\resources\bin;C:\ngrok;C:\Users\Ahmed Yasser\AppData\Local\Programs\Python\Python310\Scripts\;C:\Users\Ahmed Yasser\AppData\Local\Programs\Python\Python310\;C:\Users\Ahmed Yasser\AppData\Local\Microsoft\WindowsApps;D:\Microsoft VS Code\bin;C:\Users\Ahmed Yasser\.dotnet\tools;C:\Program Files\Azure Data Studio\bin;C:\MinGW\bin;C:\Program Files\CMake\bin;C:\Users\Ahmed Yasser\AppData\Local\JetBrains\PyCharm Community Edition 2022.2.2\bin;;C:\development\flutter\bin;D:\dartsdk-windows-x64-release\dart-sdk\bin;C:\Users\Ahmed Yasser\AppData\Roaming\npm;C:\Users\Ahmed Yasser\AppData\Local\Pub\Cache\bin;C:\Program Files\Java\jdk-22\bin;C:\ProgramData\chocolatey\lib\terraform\tools;C:\Program Files (x86)\Nmap;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.3.3\bin;
+USERNAME=Ahmed Yasser
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 165 Stepping 2, GenuineIntel
+TMP=C:\Users\AHMEDY~1\AppData\Local\Temp
+TEMP=C:\Users\AHMEDY~1\AppData\Local\Temp
+
+
+
+
+Periodic native trim disabled
+
+JNI global refs:
+JNI global refs: 0, weak refs: 0
+
+JNI global refs memory usage: 0, weak refs: 0
+
+Process memory usage:
+Resident Set Size: 11992K (0% of 16604212K total physical memory with 2913660K free physical memory)
+
+OOME stack traces (most recent first):
+Classloader memory used:
+
+---------------  S Y S T E M  ---------------
+
+OS:
+ Windows 11 , 64 bit Build 22621 (10.0.22621.5124)
+OS uptime: 0 days 4:50 hours
+Hyper-V role detected
+
+CPU: total 12 (initial active 12) (6 cores per cpu, 2 threads per core) family 6 model 165 stepping 2 microcode 0xe2, cx8, cmov, fxsr, ht, mmx, 3dnowpref, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, lzcnt, tsc, tscinvbit, avx, avx2, aes, erms, clmul, bmi1, bmi2, adx, fma, vzeroupper, clflush, clflushopt, hv, rdtscp, f16c
+Processor Information for the first 12 processors :
+  Max Mhz: 2592, Current Mhz: 2592, Mhz Limit: 2592
+
+Memory: 4k page, system-wide physical 16215M (2845M free)
+TotalPageFile size 18263M (AvailPageFile size 193M)
+current process WorkingSet (physical memory assigned to process): 11M, peak: 11M
+current process commit charge ("private bytes"): 64M, peak: 318M
+
+vm_info: OpenJDK 64-Bit Server VM (21.0.6+8-b631.39) for windows-amd64 JRE (21.0.6+8-b631.39), built on 2025-02-04 by "builduser" with MS VC++ 16.10 / 16.11 (VS2019)
+
+END.
