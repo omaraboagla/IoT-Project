@@ -13,7 +13,7 @@ services:
       - "3366:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      
+
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p=root123"]
       interval: 10s
@@ -40,6 +40,6 @@ services:
     ports:
       - 4200:4200
 
-
 volumes:
   mysql_data:
+
