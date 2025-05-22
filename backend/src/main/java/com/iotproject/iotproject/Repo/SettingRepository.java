@@ -12,5 +12,7 @@ import java.util.UUID;
 @Repository
 public interface SettingRepository extends JpaRepository<Setting, UUID> {
     List<Setting> findByType(SettingType type);
+    Setting findTopByOrderByCreatedAtDesc();
+
 }
 
