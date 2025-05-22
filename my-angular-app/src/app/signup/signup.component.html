@@ -1,0 +1,77 @@
+<app-formcard [validationStatus]="signInCredentials.valid">
+    <h2>Welcome !</h2>
+    <p>Please enter your credentials to sign in.</p>
+    <form [formGroup]="signInCredentials" (ngSubmit)="onSubmit()" class="form-control">
+        <div class="input-control">
+            <label class="form-label" for="nameID">Name</label>
+            <input #nameID class="form-control" type="text" formControlName="name">
+            <div class="form-label text-danger">
+                @if(name.touched && name.invalid)
+                {
+                <p>At least 3 character Name Required</p>
+                }
+            </div>
+        </div>
+
+        <div class="input-control">
+            <label class="form-label" for="emailID">Email Address</label>
+            <input #emailID class="form-control" type="email" formControlName="email">
+            <div class="form-label text-danger">
+                @if(email.touched && email.invalid)
+                {
+                <p>Correct Email is required</p>
+                }
+            </div>
+        </div>
+
+        <div class="input-control">
+            <label class="form-label" for="passwordID">Password</label>
+            <input #passwordID class="form-control" type="password" formControlName="password">
+            <div class="form-label text-danger">
+                @if(password.dirty && password.invalid)
+                {
+                <div id="password-check">
+                    <div><label
+                            [ngClass]="{'text-danger' : password.value === '' ? true : password.errors?.['minlength'], 'text-success' : password.value === '' ? true : !password.errors?.['minlength']}"
+                            for="password-textbox" class="password-warnings" id="password-size">
+                            <i class="fa-solid fa-circle-xmark"
+                                [ngClass]="{'fa-circle-xmark text-danger' : password.value === '' ? true : password.errors?.['minlength'], 'fa-circle-check text-success' : password.value === '' ? true : !password.errors?.['minlength']}"></i>
+                            Password must be at least 8
+                            characters</label></div>
+                    <div><label
+                            [ngClass]="{'text-danger' : password.value === '' ? true : password.errors?.['noCapital'], 'text-success' : password.value === '' ? true : !password.errors?.['noCapital']}"
+                            for="password-textbox" class="password-warnings" id="password-capital">
+                            <i class="fa-solid fa-circle-xmark"
+                                [ngClass]="{'fa-circle-xmark text-danger' : password.value === '' ? true : password.errors?.['noCapital'], 'fa-circle-check text-success' : password.value === '' ? true : !password.errors?.['noCapital']}"></i>
+                            Password must contain a capital
+                            letter</label></div>
+                    <div><label
+                            [ngClass]="{'text-danger' : password.value === '' ? true : password.errors?.['pattern'], 'text-success' : password.value === '' ? true : !password.errors?.['pattern']}"
+                            for="password-textbox" class="password-warnings" id="password-number">
+                            <i class="fa-solid fa-circle-xmark"
+                                [ngClass]="{'fa-circle-xmark text-danger' : password.value === '' ? true : password.errors?.['pattern'], 'fa-circle-check text-success' : password.value === '' ? true : !password.errors?.['pattern']}"></i>
+                            Password must contain a number</label></div>
+                </div>
+                }
+            </div>
+        </div>
+
+        <button [disabled]="signInCredentials.invalid" class="btn btn-primary w-100" type="submit">Sign Up</button>
+
+    </form>
+
+    <div class="create-account">
+        <p>Already have an account? <a style="text-decoration: none;" [routerLink]="'../signin'">Sign In</a></p>
+    </div>
+
+    <div class="horizontal-line">
+        <p>or</p>
+    </div>
+
+    <div class="social-icons">
+        <div style="background-color: #FC401D;"><a href=""><i class="fa-brands fa-google"></i></a></div>
+        <div style="background-color: #3B5999;"><a href=""><i class="fa-brands fa-facebook-f"></i></a></div>
+        <div style="background-color: black;"><a href=""><i class="fa-brands fa-x-twitter"></i></a></div>
+        <div style="background-color: #e1306c;"><a href=""><i class="fa-brands fa-instagram"></i></a></div>
+    </div>
+</app-formcard>

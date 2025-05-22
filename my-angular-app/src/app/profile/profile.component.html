@@ -1,0 +1,25 @@
+<div class="bg-white p-3">
+    <h2>Hello {{ shared.loggedUser.fullname }}</h2>
+    <h4>Change Password</h4>
+    @if(shared.changePasswordError)
+    {
+    <div class="alert alert-danger" role="alert">
+        <strong>Something went Wrong</strong> : Make sure you type the old Password Right.
+    </div>
+    }
+    <form class="form-control mb-3" [formGroup]="changePassword" (ngSubmit)="onChangePassword()">
+        <div class="mb-3 input-control">
+            <label for="oldPassword" class="form-label">Old Password</label>
+            <input type="password" class="form-control" formControlName="oldPassword" id="oldPassword"
+                placeholder="Enter old password">
+        </div>
+        <div class="mb-3 input-control">
+            <label for="newPassword" class="form-label">New Password</label>
+            <input type="password" class="form-control" formControlName="newPassword" id="newPassword"
+                placeholder="Enter new password">
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Change Password</button>
+    </form>
+
+    <button class="btn btn-danger w-100" (click)="logout()">Logout</button>
+</div>

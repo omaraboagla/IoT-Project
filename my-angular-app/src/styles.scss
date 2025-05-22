@@ -1,0 +1,42 @@
+/* You can add global styles to this file, and also import other style files */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.input-control {
+    margin: 10px 0 10px 0;
+}
+
+input.form-control.ng-invalid:focus {
+    border-color: rgba(255, 0, 0, 0.5);
+    box-shadow: 0 0 0 0.25rem rgba(255, 0, 0, 0.2);
+}
+
+input.form-control.ng-valid:focus {
+    border-color: rgba(0, 255, 0, 0.5) !important;
+    box-shadow: 0 0 0 0.25rem rgba(0, 255, 0, 0.2) !important;
+}
+
+input.ng-touched.ng-invalid {
+    border-color: rgba(255, 0, 0, 0.5);
+    box-shadow: 0 0 0 0.25rem rgba(255, 0, 0, 0.2);
+}
+
+input.ng-touched.ng-valid {
+    border-color: rgba(0, 255, 0, 0.5) !important;
+    box-shadow: 0 0 0 0.25rem rgba(0, 255, 0, 0.2) !important;
+}

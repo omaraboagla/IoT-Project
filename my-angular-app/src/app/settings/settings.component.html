@@ -1,0 +1,51 @@
+<div class="bg-white p-3">
+    <h2 class="mb-3">Settings</h2>
+
+
+    @if(shared.updatedSettings === 1)
+    {
+    <div class="alert alert-success" role="alert">
+        <strong>Settings Changed Successfully</strong> : wait for notification.
+    </div>
+    }
+    @if(shared.updatedSettings === 2)
+    {
+    <div class="alert alert-danger" role="alert">
+        <strong>Update Failed</strong> : Enter Valid Data.
+    </div>
+    }
+    <label for="sensorType" class="form-label">Sensor Type</label>
+
+    <select #sensorType [(ngModel)]="selectedType" (change)="onTypeChange($event)" class="form-select mb-3">
+        @for (sensor of sensors; track $index) {
+        <option value="{{ sensor.type }}">{{ sensor.type }}</option>
+        }
+    </select>
+
+    <label for="metric" class="form-label">Metric</label>
+
+    <select #metric [(ngModel)]="selectedMetric" class="form-select mb-3">
+        @for (sensor of sensors; track $index) {
+        @if(sensor.type == selectedType) {
+        @for (metric of sensor.metrics; track $index) {
+        <option value="{{ metric }}">{{ metric }}</option>
+        }
+        }
+        }
+    </select>
+
+    <label for="value" class="form-label">{{selectedMetric ? selectedMetric : 'No Metric'}} Value</label>
+    <input #value type="number" [(ngModel)]="metricValue" class="form-control mb-3 mt-2">
+
+    <label for="alert" class="form-label">Alert Type</label>
+    <select #alert [(ngModel)]="alertType" class="form-select mb-3">
+        <option value="above">Above</option>
+        <option value="below">Below</option>
+    </select>
+
+    <button (click)="onSubmit()" class="btn btn-success w-100">Change</button>
+
+
+
+
+</div>
