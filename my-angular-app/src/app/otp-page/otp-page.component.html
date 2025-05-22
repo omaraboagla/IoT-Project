@@ -1,0 +1,24 @@
+<app-formcard [validationStatus]="otpCredentials.valid">
+    <h2>Verification</h2>
+    <form [formGroup]="otpCredentials" (ngSubmit)="onSubmit()" class="form-control">
+        @if(!shared.otpFlag)
+        {
+        <div class="alert alert-danger" role="alert">
+            <strong>Invalid OTP</strong> : Please enter a valid OTP sent to you.
+        </div>
+        }
+        <div class="input-control">
+            <label for="otp">Please Enter 6 digits OTP sent to your mail</label>
+            <input #otp type="text" class="form-control" formControlName="number">
+
+        </div>
+        <button [disabled]="otpCredentials.invalid" type="submit" class="btn btn-primary w-100">Verify</button>
+
+        <div class="d-flex justify-content-between mt-3">
+            <button class="btn btn-primary" (click)="onResend()">Resend OTP</button>
+            <span><a [routerLink]="'../signin'">Sign In</a></span>
+
+        </div>
+
+    </form>
+</app-formcard>
