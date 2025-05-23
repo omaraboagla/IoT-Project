@@ -1,0 +1,29 @@
+<div class="traffic-container">
+  <div class="traffic-header">
+    <h1>Traffic Monitoring</h1>
+    <button routerLink="/dashboard" class="back-button">Back to Dashboard</button>
+  </div>
+  
+  <div class="traffic-content">
+    <table class="traffic-table">
+      <thead>
+        <tr>
+          <th *ngFor="let column of displayedColumns">{{ column | titlecase }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of trafficData">
+          <td>{{ row.id }}</td>
+          <td>{{ row.location }}</td>
+          <td>
+            <span [class]="getStatusClass(row.status)">
+              {{ row.status | titlecase }}
+            </span>
+          </td>
+          <td>{{ row.vehicles }}</td>
+          <td>{{ row.timestamp }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

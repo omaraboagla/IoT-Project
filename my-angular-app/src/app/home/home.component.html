@@ -1,16 +1,20 @@
-<button class="btn" (click)="toggleSidebarMenu()"><i class="fa-solid fa-bars"></i></button>
+<button class="btn" (click)="toggleSidebarMenu()">
+  <i class="fa-solid fa-bars"></i>
+</button>
+
 <div class="sidebar" [ngStyle]="{'transform': toggleSidebar ? 'translateX(0)' : 'translateX(-100%)'}">
-    <div class="title">
-        <h2>Menu</h2>
-        <i (click)="toggleSidebarMenu()" class="fa-solid fa-xmark"></i>
-    </div>
-    <hr>
-    <div class="links">
-        <ul>
-            <li><a routerLink="/home/profile"><i class="fa-solid fa-user"></i> Profile</a></li>
-            <li><a routerLink="/home/settings"><i class="fa-solid fa-gear"></i> Settings</a></li>
-        </ul>
-    </div>
+  <div class="title">
+    <h2>Menu</h2>
+    <i (click)="toggleSidebarMenu()" class="fa-solid fa-xmark"></i>
+  </div>
+  <hr>
+  <div class="links">
+    <ul>
+      <li><a routerLink="/home/dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
+      <li><a routerLink="/home/profile"><i class="fa-solid fa-user"></i> Profile</a></li>
+      <li><a routerLink="/home/settings"><i class="fa-solid fa-gear"></i> Settings</a></li>
+    </ul>
+  </div>
 </div>
 
 <router-outlet></router-outlet>

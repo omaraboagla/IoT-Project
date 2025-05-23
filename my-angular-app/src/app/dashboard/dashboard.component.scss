@@ -1,0 +1,54 @@
+.title {
+  text-align: center;
+  font-size: 1.8rem;
+  margin: 2rem 0;
+  color: white;
+}
+
+.card-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.card {
+  background: white;
+  width: 320px;          /* larger width */
+  padding: 2rem;         /* more padding */
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease, border-color 0.3s ease;
+  cursor: pointer;
+  border: 2px solid transparent; /* border for hover effect */
+}
+
+.card:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  border-color: #007bff; /* blue border on hover */
+}
+
+.card h3 {
+  margin-bottom: 0.75rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 0.4rem;
+}
+
+.card h3::after {
+  content: "";
+  display: block;
+  width: 50px;
+  height: 4px;
+  background-color: #007bff;  /* blue underline */
+  margin: 0.4rem auto 0;
+  border-radius: 2px;
+}
+
+.card p {
+  font-size: 0.9rem;
+}
