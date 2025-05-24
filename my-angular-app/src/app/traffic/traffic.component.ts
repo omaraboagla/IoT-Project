@@ -1,9 +1,12 @@
-import { Component, NgModule } from '@angular/core';
+import { Component, NgModule, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TitleCasePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReadingsService } from '../../core/services/readings/readings.service';
 import { FormsModule, NgModel } from '@angular/forms';
+import { Chart, registerables } from 'chart.js';
+import { SharedService } from '../../core/services/shared/shared.service';
+
 @Component({
   selector: 'app-traffic',
   standalone: true,
@@ -22,12 +25,13 @@ export class TrafficComponent {
   sortMode = "asc";
   startDate = "";
   endDate = "";
-  constructor(private readingsService: ReadingsService) { }
+  constructor(private readingsService: ReadingsService, public shared: SharedService) { }
 
   readData() {
     console.log(this.startDate, " ", this.endDate);
     this.readingsService.getReadings(this.location, this.congestionLevel, this.pageNumber, 10, this.sortBy, this.sortMode, this.startDate, this.endDate).subscribe(data => {
       this.trafficData = data.data;
+      this.viewChart();
       this.nextPage %= data.meta.totalPages;
       this.previousPage %= data.meta.totalPages;
       if (this.previousPage == -1)
@@ -46,6 +50,7 @@ export class TrafficComponent {
   previousPageData(): void {
     this.readingsService.getReadings(this.location, this.congestionLevel, this.previousPage, 10, this.sortBy, this.sortMode, this.startDate, this.endDate).subscribe(data => {
       this.trafficData = data.data;
+      this.viewChart();
       this.pageNumber = this.previousPage;
       this.nextPage--;
       this.previousPage--;
@@ -60,6 +65,7 @@ export class TrafficComponent {
   nextPageData(): void {
     this.readingsService.getReadings(this.location, this.congestionLevel, this.nextPage, 10, this.sortBy, this.sortMode, this.startDate, this.endDate).subscribe(data => {
       this.trafficData = data.data;
+      this.viewChart();
       this.pageNumber = this.nextPage;
       this.nextPage++;
       this.previousPage++;
@@ -77,6 +83,7 @@ export class TrafficComponent {
     this.pageNumber = 0;
     this.readingsService.getReadings(this.location, this.congestionLevel, 0, 10, this.sortBy, this.sortMode, this.startDate, this.endDate).subscribe(data => {
       this.trafficData = data.data;
+      this.viewChart();
       this.nextPage %= data.meta.totalPages;
       this.previousPage %= data.meta.totalPages;
       if (this.previousPage == -1)
@@ -102,5 +109,47 @@ export class TrafficComponent {
       'moderate': 'status-moderate',
       'low': 'status-light'
     }[status.toLowerCase()] || '';
+  }
+
+
+
+  chart: Chart | undefined;
+
+  ngAfterViewInit() {
+    Chart.register(...registerables);
+    this.viewChart();
+  }
+
+  viewChart() {
+    // Register all chart types and components
+
+    // Create the chart
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
+    let indexArray = [];
+    for (let i = 0; i < this.trafficData.length; i++) {
+      indexArray.push(i + 1);
+    }
+
+    this.chart = new Chart('trafficChart', {
+      type: 'bar', // Change to 'line', 'pie', etc.
+      data: {
+        labels: indexArray,
+        datasets: [{
+          label: 'Traffic Data',
+          data: this.trafficData.map(row => row['trafficDensity']),
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true,
+          }
+        }
+      }
+    });
   }
 }

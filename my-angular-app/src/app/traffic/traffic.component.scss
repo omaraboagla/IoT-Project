@@ -1,7 +1,7 @@
 .traffic-container {
   padding: 2rem;
   background-color: #f5f7fa;
-  min-height: 100vh;
+  // min-height: 100vh;
 }
 
 .traffic-header {
@@ -42,8 +42,9 @@
 .traffic-table {
   width: 100%;
   border-collapse: collapse;
-  
-  th, td {
+
+  th,
+  td {
     padding: 1rem;
     text-align: left;
     border-bottom: 1px solid #ecf0f1;
@@ -73,4 +74,12 @@
 .status-light {
   color: #2ecc71;
   font-weight: 600;
+}
+
+
+.alertNotify {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
 }
