@@ -39,7 +39,7 @@ export class SigninComponent {
         this.shared.alreadyRegistered = false;
         this.shared.failedSignIn = false;
         sessionStorage.setItem('token', JSON.stringify(response.token));
-        this.router.navigate(['/home/profile']);
+        this.router.navigate(['/home/dashboard']);
       },
       error: (error) => {
         console.error("Sign In failed", error);
