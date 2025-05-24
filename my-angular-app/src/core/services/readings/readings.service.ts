@@ -38,4 +38,26 @@ export class ReadingsService {
     console.log(`http://localhost:8080/api/sensor/traffic-sensor/filter?${queryParameters}`);
     return this._httpclient.get(`http://localhost:8080/api/sensor/traffic-sensor/filter?${queryParameters}`, { headers });
   }
+
+
+  getAlertReadings(token: string): Observable<any> {
+    token = token.slice(1, -1);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+    return this._httpclient.get(`http://localhost:8080/api/alerts/traffic/list`, { headers });
+  }
+
+
+  changeAlertReadings(token: string, id: number): Observable<any> {
+    token = token.slice(1, -1);
+    console.log(token, " ", id);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+    const body = {};
+    return this._httpclient.put(`http://localhost:8080/api/alerts/traffic/${id}/acknowledge`, body, { headers });
+  }
 }

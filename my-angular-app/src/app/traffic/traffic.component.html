@@ -1,4 +1,10 @@
 <div class="traffic-container">
+  @if(shared.alertFlag)
+  {
+  <div>
+    <div class="alert alert-warning text-center alertNotify z-1">{{shared.alertMessage}}</div>
+  </div>
+  }
   <div class="traffic-header">
     <h1>Traffic Monitoring</h1>
     <button routerLink="/home/dashboard" class="back-button">Back to Dashboard</button>
@@ -92,5 +98,7 @@
       <button class="btn btn-primary" (click)="previousPageData()">Previous</button>
       <button class="btn btn-primary" (click)="nextPageData()">Next</button>
     </div>
+
+    <canvas id="trafficChart" class="w-100"></canvas>
   </div>
 </div>
