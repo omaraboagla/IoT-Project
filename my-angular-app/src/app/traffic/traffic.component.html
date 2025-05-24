@@ -1,10 +1,50 @@
 <div class="traffic-container">
   <div class="traffic-header">
     <h1>Traffic Monitoring</h1>
-    <button routerLink="/dashboard" class="back-button">Back to Dashboard</button>
+    <button routerLink="/home/dashboard" class="back-button">Back to Dashboard</button>
   </div>
-  
+
   <div class="traffic-content">
+    <div class="form-control mb-3">
+      <div class="d-flex my-2">
+        <label for="location">Location: </label>
+        <input type="text" id="location" class="form-control" [(ngModel)]="location" />
+      </div>
+      <div class="d-flex my-2">
+        <label for="congestionLevel">Congestion Level: </label>
+        <select id="congestionLevel" class="form-control" [(ngModel)]="congestionLevel">
+          <option value="">Select Congestion Level</option>
+          <option value="LOW">Low</option>
+          <option value="MODERATE">Moderate</option>
+          <option value="HIGH">High</option>
+          <option value="SEVERE">Severe</option>
+        </select>
+      </div>
+
+      <div class="d-flex my-2">
+        <label for="sortBy">Sort by: </label>
+        <select id="sortBy" class="form-control" [(ngModel)]="sortBy">
+          <option value="location">Location</option>
+          <option value="timestamp">Timestamp</option>
+          <option value="trafficDensity">Traffic Density</option>
+          <option value="avgSpeed">Average Speed</option>
+        </select>
+        <select id="sortMode" class="form-control" [(ngModel)]="sortMode">
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
+      </div>
+
+      <div class="d-flex my-2">
+        <label for="startDate">Start Date: </label>
+        <input type="datetime-local" id="startDate" class="form-control" [(ngModel)]="startDate" />
+        <label for="endDate">End Date: </label>
+        <input type="datetime-local" id="endDate" class="form-control" [(ngModel)]="endDate" />
+      </div>
+
+
+      <button class="btn btn-warning" (click)="putFilter()">Filter</button>
+    </div>
     <table class="traffic-table">
       <thead>
         <tr>
@@ -12,18 +52,45 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let row of trafficData">
-          <td>{{ row.id }}</td>
-          <td>{{ row.location }}</td>
+        @for(row of trafficData; track $index)
+        {
+        <tr>
+          <td>{{ $index + 1 }}</td>
+          <td>{{ row['location'] }}</td>
           <td>
-            <span [class]="getStatusClass(row.status)">
-              {{ row.status | titlecase }}
+            <span [class]="getStatusClass(row['congestionLevel'])">
+              {{ row['congestionLevel'] | titlecase }}
             </span>
           </td>
-          <td>{{ row.vehicles }}</td>
-          <td>{{ row.timestamp }}</td>
+          <td>{{ row['trafficDensity'] }}</td>
+          <td>{{ row['timestamp'] }}</td>
         </tr>
+        }
+        @empty {
+        <tr>
+
+          <td colspan="5" class="alert alert-danger mx-auto" style="text-align: center;">No data available</td>
+        </tr>
+        }
+
+        <!-- <tr *ngFor="let row of trafficData; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ row['location'] }}</td>
+          <td>
+            <span [class]="getStatusClass(row['congestionLevel'])">
+              {{ row['congestionLevel'] | titlecase }}
+            </span>
+          </td>
+          <td>{{ row['trafficDensity'] }}</td>
+          <td>{{ row['timestamp'] }}</td>
+        </tr> -->
+
       </tbody>
     </table>
+
+    <div class="d-flex justify-content-between mt-3">
+      <button class="btn btn-primary" (click)="previousPageData()">Previous</button>
+      <button class="btn btn-primary" (click)="nextPageData()">Next</button>
+    </div>
   </div>
 </div>

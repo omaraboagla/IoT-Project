@@ -13,9 +13,9 @@ services:
       - "3366:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      
+
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p=root123"]
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-p=root123" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -25,7 +25,8 @@ services:
     container_name: iot-app
 
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     ports:
       - "8080:8080"
     environment:
@@ -39,7 +40,6 @@ services:
     container_name: my-angular-app
     ports:
       - 4200:4200
-
 
 volumes:
   mysql_data:
