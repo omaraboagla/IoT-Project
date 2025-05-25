@@ -15,7 +15,7 @@ export class ProfileService {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
-    return this._httpclient.get(`http://localhost:8080/api/profile`, { headers });
+    return this._httpclient.get(`http://localhost:8081/api/profile`, { headers });
   }
 
   changePassword(token: string, oldPassword: string, newPassword: string): Observable<any> {
@@ -25,6 +25,6 @@ export class ProfileService {
       'Content-Type': 'application/json'
     });
     const body = { oldPassword: oldPassword, newPassword: newPassword };
-    return this._httpclient.put(`http://localhost:8080/api/profile/password`, body, { headers });
+    return this._httpclient.put(`http://localhost:8081/api/profile/password`, body, { headers });
   }
 }

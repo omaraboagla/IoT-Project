@@ -25,6 +25,8 @@ public class AlertScheduler {
     @Autowired
     private AlertRepository alertRepository;
 
+
+
     @Scheduled(cron = "0 */1 * * * *") // 10 seconds into every minute
     public void evaluateTrafficAlerts() {
         Setting latestSetting = settingRepository.findTopByOrderByCreatedAtDesc();
@@ -72,12 +74,16 @@ public class AlertScheduler {
             AlertsEntity alert = new AlertsEntity();
             alert.setType(setting.getMetric());
             alert.setMessage(setting.getAlertType().name() + " threshold breach");
-            alert.setCurrentValue((double) currentValue); // if float
+            alert.setCurrentValue(currentValue);
             alert.setThresholdValue((double) setting.getThresholdValue());
             alert.setTriggeredAt(LocalDateTime.now());
             alert.setAcknowledged(false);
+
             alertRepository.save(alert);
-            System.out.println("Alert generated for: " + setting.getMetric());
+
+
+
+            System.out.println("Alert generated and sent for: " + setting.getMetric());
         }
     }
 }

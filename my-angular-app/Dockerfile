@@ -1,4 +1,4 @@
-FROM node:18 AS build
+FROM node:18
 
 WORKDIR /app
 
@@ -11,6 +11,6 @@ COPY . .
 
 EXPOSE 4200
 
-CMD ["npm", "run", "start"]
+# CMD ["npm", "run", "start"]
 
-# CMD ["npx", "ng", "serve", "--host", "0.0.0.0"]
+CMD ["npx", "ng", "serve", "--host", "0.0.0.0"]

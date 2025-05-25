@@ -11,22 +11,22 @@ export class AuthenticationService {
 
   signUp(data: string): Observable<any> {
     const body = { email: data };
-    return this._httpclient.post('http://localhost:8080/api/auth/initiate-signup', body);
+    return this._httpclient.post('http://localhost:8081/api/auth/initiate-signup', body);
   }
 
   verify(email: string, otp: string): Observable<any> {
     const body = { email: email, otp: otp };
-    return this._httpclient.post('http://localhost:8080/api/auth/verify-otp', body);
+    return this._httpclient.post('http://localhost:8081/api/auth/verify-otp', body);
   }
 
   register(email: string, username: string, password: string, otp: string): Observable<any> {
     const body = { email: email, password: password, username: username, otp: otp };
-    return this._httpclient.post('http://localhost:8080/api/auth/complete-registration', body);
+    return this._httpclient.post('http://localhost:8081/api/auth/complete-registration', body);
   }
 
   signIn(email: string, password: string): Observable<any> {
     const body = { email: email, password: password };
-    return this._httpclient.post('http://localhost:8080/api/auth/login', body);
+    return this._httpclient.post('http://localhost:8081/api/auth/login', body);
   }
 
 }

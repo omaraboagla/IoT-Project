@@ -34,9 +34,9 @@ export class ReadingsService {
       queryParameters += `&sort=${sort},${sortMode}`
     }
 
-    // return this._httpclient.get(`http://localhost:8080/api/readings?location=${location}&congestionControl=${congestionControl}&page=${page}&size=${size}&sort=${sort}`, { headers });
-    console.log(`http://localhost:8080/api/sensor/traffic-sensor/filter?${queryParameters}`);
-    return this._httpclient.get(`http://localhost:8080/api/sensor/traffic-sensor/filter?${queryParameters}`, { headers });
+    // return this._httpclient.get(`http://localhost:8081/api/readings?location=${location}&congestionControl=${congestionControl}&page=${page}&size=${size}&sort=${sort}`, { headers });
+    console.log(`http://localhost:8081/api/sensor/traffic-sensor/filter?${queryParameters}`);
+    return this._httpclient.get(`http://localhost:8081/api/sensor/traffic-sensor/filter?${queryParameters}`, { headers });
   }
 
 
@@ -46,7 +46,7 @@ export class ReadingsService {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     });
-    return this._httpclient.get(`http://localhost:8080/api/alerts/traffic/list`, { headers });
+    return this._httpclient.get(`http://localhost:8081/api/alerts/traffic/list`, { headers });
   }
 
 
@@ -58,6 +58,6 @@ export class ReadingsService {
       'Authorization': `Bearer ${token}`
     });
     const body = {};
-    return this._httpclient.put(`http://localhost:8080/api/alerts/traffic/${id}/acknowledge`, body, { headers });
+    return this._httpclient.put(`http://localhost:8081/api/alerts/traffic/${id}/acknowledge`, body, { headers });
   }
 }
