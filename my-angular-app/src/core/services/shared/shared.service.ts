@@ -11,6 +11,8 @@ export class SharedService {
   loggedUser: User = new User("", "");
   changePasswordError: boolean = false;
   updatedSettings: number = 0;
+  alertFlag: boolean = false;
+  alertMessage: string = "";
 
   constructor() { }
 }

@@ -19,7 +19,14 @@ RUN apt-get update && \
     apt-get install -y docker-ce-cli && \
     rm -rf /var/lib/apt/lists/*
 
-# Try to add 'jenkins' user to the 'docker' group, if it exists
+# Install Docker Compose (latest version)
+RUN curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
+    chmod +x /usr/local/bin/docker-compose
+
+# Verify installation (optional)
+RUN docker-compose --version
+
+# Add Jenkins user to docker group if exists
 RUN if getent group docker; then \
         usermod -aG docker jenkins; \
     else \

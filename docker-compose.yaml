@@ -13,21 +13,22 @@ services:
       - "3366:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      
+
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p=root123"]
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-p=root123" ]
       interval: 10s
       timeout: 5s
       retries: 5
 
   app:
-    build: ./backend
+    image: ahmedyasser02/iotproject:v3.0
     container_name: iot-app
 
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     ports:
-      - "8080:8080"
+      - "8081:8080"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/iotProject?createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: root
@@ -35,11 +36,10 @@ services:
       SERVER_PORT: 8080
 
   frontendapp:
-    build: ./my-angular-app
+    image: ahmedyasser02/my-angular-app:v3.0
     container_name: my-angular-app
     ports:
       - 4200:4200
-
 
 volumes:
   mysql_data:

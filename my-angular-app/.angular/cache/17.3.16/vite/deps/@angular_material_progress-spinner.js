@@ -3,7 +3,7 @@ import {
   DOCUMENT,
   NgTemplateOutlet,
   isPlatformBrowser
-} from "./chunk-V465AUSG.js";
+} from "./chunk-LD3ZYJXI.js";
 import {
   ANIMATION_MODULE_TYPE,
   APP_ID,
@@ -31,8 +31,6 @@ import {
   Version,
   ViewChild,
   ViewEncapsulation$1,
-  __spreadProps,
-  __spreadValues,
   booleanAttribute,
   combineLatest,
   concat,
@@ -85,7 +83,11 @@ import {
   ɵɵtext,
   ɵɵtextInterpolate1,
   ɵɵviewQuery
-} from "./chunk-552W2R2Y.js";
+} from "./chunk-IIO46LWZ.js";
+import {
+  __spreadProps,
+  __spreadValues
+} from "./chunk-WDMUDEB6.js";
 
 // node_modules/@angular/cdk/fesm2022/platform.mjs
 var hasV8BreakIterator;

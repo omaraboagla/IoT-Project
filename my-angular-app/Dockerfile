@@ -1,4 +1,4 @@
-FROM node:18 AS build
+FROM node:18
 
 WORKDIR /app
 
@@ -10,5 +10,7 @@ RUN npm install
 COPY . .
 
 EXPOSE 4200
+
+# CMD ["npm", "run", "start"]
 
 CMD ["npx", "ng", "serve", "--host", "0.0.0.0"]

@@ -18,7 +18,7 @@ export class SettingsService {
     const body = { type: type, metric: metric, thresholdValue: thresholdValue, alertType: alertType };
     console.log(body);
     console.log(headers);
-    return this._httpclient.post('http://localhost:8080/api/settings', body, {
+    return this._httpclient.post('http://localhost:8081/api/settings', body, {
       headers,
       'responseType': 'text' as 'json'
     });
