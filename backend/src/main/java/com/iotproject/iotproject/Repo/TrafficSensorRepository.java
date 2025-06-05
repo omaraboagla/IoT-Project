@@ -11,6 +11,4 @@ import java.util.UUID;
 @Repository
 public interface TrafficSensorRepository extends JpaRepository<TrafficSensor, UUID>, JpaSpecificationExecutor<TrafficSensor> {
     Optional<TrafficSensor> findTopByOrderByTimestampDesc();
-
 }
-

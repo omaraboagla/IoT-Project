@@ -1,8 +1,6 @@
 package com.iotproject.iotproject.Controller;
 
-import com.iotproject.iotproject.Dto.ApiResponseDto;
-import com.iotproject.iotproject.Dto.TrafficSensorDto;
-import com.iotproject.iotproject.Dto.TrafficSensorFilter;
+import com.iotproject.iotproject.Dto.*;
 import com.iotproject.iotproject.Entity.TrafficSensor;
 import com.iotproject.iotproject.Service.TrafficSensorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +19,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-public class TrafficSensorController {
+public class TrafficSensorController extends BaseSensorController<TrafficSensor,TrafficSensorDto,TrafficSensorFilter> {
 
     @Autowired
     private TrafficSensorService trafficSensorService;
@@ -37,56 +35,21 @@ public class TrafficSensorController {
         }
     }
 
-    @GetMapping("/api/sensor/traffic-sensor/all")
-    public ResponseEntity<ApiResponseDto<List<TrafficSensorDto>>> getAllTrafficSensorData() {
-        try {
-            List<TrafficSensor> sensors = trafficSensorService.getAllTrafficSensorData();
 
-            List<TrafficSensorDto> dtoList = sensors.stream()
-                    .map(this::toDto)
-                    .collect(Collectors.toList());
 
-            return ResponseEntity.ok(new ApiResponseDto<>("Success", dtoList, null));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponseDto<>("Failed to fetch traffic sensor data.", null, null));
-        }
+
+
+    @Override
+    protected Page<TrafficSensor> filterEntities(TrafficSensorFilter filter, Pageable pageable) {
+        return trafficSensorService.filterTrafficSensors(filter, pageable);
     }
+
+
 
     @GetMapping("/api/sensor/traffic-sensor/filter")
     public ResponseEntity<ApiResponseDto<List<TrafficSensorDto>>> filterTrafficSensors(
             TrafficSensorFilter filter,
             @PageableDefault(size = 10, sort = "timestamp", direction = Sort.Direction.DESC) Pageable pageable) {
-        try {
-            Page<TrafficSensor> page = trafficSensorService.filterTrafficSensors(filter, pageable);
-
-            List<TrafficSensorDto> dtoList = page.stream()
-                    .map(this::toDto)
-                    .collect(Collectors.toList());
-
-            Map<String, Object> meta = Map.of(
-                    "pageNumber", page.getNumber(),
-                    "pageSize", page.getSize(),
-                    "totalElements", page.getTotalElements(),
-                    "totalPages", page.getTotalPages(),
-                    "isLast", page.isLast()
-            );
-
-            return ResponseEntity.ok(new ApiResponseDto<>("Success", dtoList, meta));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponseDto<>("Failed to filter traffic sensor data.", null, null));
-        }
-    }
-
-    private TrafficSensorDto toDto(TrafficSensor entity) {
-        return new TrafficSensorDto(
-                entity.getId(),
-                entity.getLocation(),
-                entity.getTimestamp(),
-                entity.getTrafficDensity(),
-                entity.getAvgSpeed(),
-                entity.getCongestionLevel()
-        );
+        return filter(filter, TrafficSensorDto.class ,pageable); // Call generic method from base class
     }
 }

@@ -1,9 +1,12 @@
 package com.iotproject.iotproject.Service;
 
+import com.iotproject.iotproject.Dto.TrafficSensorDto;
 import com.iotproject.iotproject.Dto.TrafficSensorFilter;
 import com.iotproject.iotproject.Entity.TrafficSensor;
 import com.iotproject.iotproject.Enum.CongestionLevel; // Import the enum
 import com.iotproject.iotproject.Repo.TrafficSensorRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,16 +18,22 @@ import java.util.List;
 import java.util.Random;
 
 @Service
-public class TrafficSensorService {
+public class TrafficSensorService extends BaseSensorService<TrafficSensor ,  Object , TrafficSensorRepository>{
 
     @Autowired
     private TrafficSensorRepository trafficSensorRepository;
 
     private final Random random = new Random();
 
+    private static final Logger logger = LoggerFactory.getLogger(TrafficSensorService.class);
+
+
+    public TrafficSensorService(TrafficSensorRepository repository) {
+        super(repository);
+    }
+
     public void generateTrafficReadings() {
-        String[] locations = {"Alexandria", "Smart Village", "Nasr City", "5th Settlement"};
-        String location = locations[random.nextInt(locations.length)];
+      String location = getRandomLocation();
 
         int trafficDensity = random.nextInt(501);
         double avgSpeed = 0 + (120.0 * random.nextDouble());
@@ -48,7 +57,7 @@ public class TrafficSensorService {
         reading.setCongestionLevel(congestionLevel);
 
         trafficSensorRepository.save(reading);
-        System.out.println("Traffic reading saved: " + reading);
+        logger.info("Traffic reading saved: {}", reading);
     }
 
     public List<TrafficSensor> getAllTrafficSensorData() {
@@ -56,24 +65,16 @@ public class TrafficSensorService {
     }
 
     public Page<TrafficSensor> filterTrafficSensors(TrafficSensorFilter filter, Pageable pageable) {
-        Specification<TrafficSensor> spec = Specification.where(null);
+        Specification<TrafficSensor> spec = buildBaseSpecification(filter);
 
-        if (filter.getLocation() != null) {
-            spec = spec.and((root, query, cb) ->
-                    cb.equal(root.get("location"), filter.getLocation()));
-        }
 
         if (filter.getCongestionLevel() != null) {
             spec = spec.and((root, query, cb) ->
                     cb.equal(root.get("congestionLevel"), filter.getCongestionLevel()));
         }
 
-        if (filter.getStartDate() != null && filter.getEndDate() != null) {
-            spec = spec.and((root, query, cb) ->
-                    cb.between(root.get("timestamp"), filter.getStartDate(), filter.getEndDate()));
-        }
 
-        return trafficSensorRepository.findAll(spec, pageable);
+        return filter(filter , pageable , spec);
     }
 
 }

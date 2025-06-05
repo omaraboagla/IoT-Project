@@ -42,7 +42,7 @@ export class HomeComponent {
           if (lastAlert != null) {
             if (lastAlert['acknowledged'] == false) {
               this.shared.alertFlag = true;
-              this.shared.alertMessage = lastAlert['message'];
+              this.shared.alertMessage = lastAlert['type'] + " is " + lastAlert['message'] + " Current Value of " + lastAlert['currentValue'] + " Threshold Value is " + lastAlert['thresholdValue'];
               setTimeout(() => this.removeAlertFlag(token, lastAlert['id']), 5000);
               console.log("alertsssss", lastAlert);
             }

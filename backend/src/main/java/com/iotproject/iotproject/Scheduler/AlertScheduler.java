@@ -27,7 +27,7 @@ public class AlertScheduler {
 
 
 
-    @Scheduled(cron = "0 */1 * * * *") // 10 seconds into every minute
+    @Scheduled(cron = "0 */1 * * * *")
     public void evaluateTrafficAlerts() {
         Setting latestSetting = settingRepository.findTopByOrderByCreatedAtDesc();
 
