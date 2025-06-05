@@ -14,6 +14,12 @@ spec:
     spec:
       containers:
         - name: angular-frontend
-          image: ahmedyasser02/my-angular-app:latest
+          image: ahmedyasser02/my-angular-app:v3.1
           ports:
             - containerPort: 4200
+          env:
+            - name: API_BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: frontend-config
+                  key: API_BASE_URL
