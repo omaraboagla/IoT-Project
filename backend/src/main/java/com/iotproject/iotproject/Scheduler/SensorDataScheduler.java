@@ -1,9 +1,13 @@
 package com.iotproject.iotproject.Scheduler;
 
+import com.iotproject.iotproject.Constants.ApiPaths;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Component
 public class SensorDataScheduler {
@@ -11,19 +15,23 @@ public class SensorDataScheduler {
     @Autowired
     private RestTemplate restTemplate;
 
-    private static final String TRAFFIC_SENSOR_API_URL = "http://localhost:8080/api/sensor/traffic-sensor/generate";
-    private static final String STREET_LIGHT_SENSOR_API_URL = "http://localhost:8080/api/sensor/street-light/generate";
-    private static final String AIR_POLLUTION_SENSOR_API_URL = "http://localhost:8080/api/sensor/air-pollution/generate";
+    @Value("${SENSOR_API_BASE_URL}")
+    private String baseUrl;
 
-    @Scheduled(cron = "0 */1 * * * *") 
+    @Value("${SENSOR_SCHEDULER_CRON}")
+    private String sensorSchedulerCron;
+
+    private static final Logger logger = LoggerFactory.getLogger(SensorDataScheduler.class);
+
+    @Scheduled(cron = "${SENSOR_SCHEDULER_CRON:0 */1 * * * *}")
     public void generateAndSaveSensorData() {
-        restTemplate.postForObject(TRAFFIC_SENSOR_API_URL, null, String.class);
-        System.out.println("Traffic sensor data generation triggered by scheduler.");
+        restTemplate.postForObject(baseUrl + ApiPaths.TRAFFIC_SENSOR, null, String.class);
+        logger.info("Traffic sensor data generation triggered by scheduler.");
 
-        restTemplate.postForObject(STREET_LIGHT_SENSOR_API_URL, null, String.class);
-        System.out.println("Steet Light sensor data generation triggered by scheduler.");
+        restTemplate.postForObject(baseUrl + ApiPaths.STREET_LIGHT_SENSOR, null, String.class);
+        logger.info("Street light sensor data generation triggered by scheduler.");
 
-        restTemplate.postForObject(AIR_POLLUTION_SENSOR_API_URL, null, String.class);
-        System.out.println("Air pollution sensor data generation triggered by scheduler.");
+        restTemplate.postForObject(baseUrl + ApiPaths.AIR_POLLUTION_SENSOR, null, String.class);
+        logger.info("Air pollution sensor data generation triggered by scheduler.");
     }
 }

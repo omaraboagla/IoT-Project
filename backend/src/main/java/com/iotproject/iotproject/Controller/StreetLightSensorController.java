@@ -1,5 +1,6 @@
 package com.iotproject.iotproject.Controller;
 
+import com.iotproject.iotproject.Constants.ApiPaths;
 import com.iotproject.iotproject.Dto.ApiResponseDto;
 import com.iotproject.iotproject.Dto.StreetLightSensorDto;
 import com.iotproject.iotproject.Dto.StreetLightSensorFilter;
@@ -26,7 +27,7 @@ public class StreetLightSensorController extends BaseSensorController<StreetLigh
     @Autowired
     private StreetLightSensorService streetLightSensorService;
 
-    @PostMapping("/api/sensor/street-light/generate")
+    @PostMapping(ApiPaths.STREET_LIGHT_SENSOR)
     public String generateStreetLightSensorData(){
         streetLightSensorService.generateStreetLightReading();
         return "Street Light Sensor data generated";
@@ -37,7 +38,7 @@ public class StreetLightSensorController extends BaseSensorController<StreetLigh
         return streetLightSensorService.filterStreetLights(filter, pageable);
     }
 
-    @GetMapping("/api/sensor/street-light/filter")
+    @GetMapping(ApiPaths.FILTER_STREET_LIGHT)
     public ResponseEntity<ApiResponseDto<List<StreetLightSensorDto>>> filterStreetLights(
             StreetLightSensorFilter filter,
             @PageableDefault(size = 10, sort = "timestamp", direction = Sort.Direction.DESC) Pageable pageable) {

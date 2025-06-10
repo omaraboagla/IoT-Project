@@ -1,5 +1,6 @@
 package com.iotproject.iotproject.Controller;
 
+import com.iotproject.iotproject.Constants.ApiPaths;
 import com.iotproject.iotproject.Dto.*;
 import com.iotproject.iotproject.Entity.TrafficSensor;
 import com.iotproject.iotproject.Service.TrafficSensorService;
@@ -24,7 +25,7 @@ public class TrafficSensorController extends BaseSensorController<TrafficSensor,
     @Autowired
     private TrafficSensorService trafficSensorService;
 
-    @PostMapping("/api/sensor/traffic-sensor/generate")
+    @PostMapping(ApiPaths.TRAFFIC_SENSOR)
     public ResponseEntity<ApiResponseDto<String>> generateTrafficSensorData() {
         try {
             trafficSensorService.generateTrafficReadings();
@@ -46,7 +47,7 @@ public class TrafficSensorController extends BaseSensorController<TrafficSensor,
 
 
 
-    @GetMapping("/api/sensor/traffic-sensor/filter")
+    @GetMapping(ApiPaths.FILTER_TRAFFIC)
     public ResponseEntity<ApiResponseDto<List<TrafficSensorDto>>> filterTrafficSensors(
             TrafficSensorFilter filter,
             @PageableDefault(size = 10, sort = "timestamp", direction = Sort.Direction.DESC) Pageable pageable) {

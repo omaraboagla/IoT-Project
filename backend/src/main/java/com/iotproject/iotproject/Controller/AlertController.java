@@ -1,5 +1,6 @@
 package com.iotproject.iotproject.Controller;
 
+import com.iotproject.iotproject.Constants.ApiPaths;
 import com.iotproject.iotproject.Entity.AlertsEntity;
 import com.iotproject.iotproject.Service.AlertService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +12,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/alerts/traffic")
+@RequestMapping(ApiPaths.TRAFFIC_ALERTS)
 //@CrossOrigin(origins = "*")
 public class AlertController {
 
     @Autowired
     private AlertService alertService;
 
-    @GetMapping("/list")
+    @GetMapping(ApiPaths.LIST_ALERTS)
     public List<AlertsEntity> getAllTrafficAlerts() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
@@ -27,7 +28,7 @@ public class AlertController {
         return ResponseEntity.ok(alerts).getBody();
     }
 
-    @PutMapping("/{id}/acknowledge")
+    @PutMapping(ApiPaths.ACKNOWLEDGE_ALERTS)
     public AlertsEntity acknowledgeAlert(@PathVariable Long id) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -35,4 +36,5 @@ public class AlertController {
         AlertsEntity alerts  = alertService.acknowledgeAlert(id);
         return ResponseEntity.ok(alerts).getBody();
     }
+
 }

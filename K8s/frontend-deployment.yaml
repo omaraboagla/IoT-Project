@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: angular-frontend
-          image: ahmedyasser02/my-angular-app:v3.1
+          image: ahmedyasser02/my-angular-app:v4.5
           ports:
             - containerPort: 4200
           env:

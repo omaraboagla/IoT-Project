@@ -1,5 +1,6 @@
 package com.iotproject.iotproject.Controller;
 
+import com.iotproject.iotproject.Constants.ApiPaths;
 import com.iotproject.iotproject.Dto.*;
 import jakarta.validation.Valid;
 
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping(ApiPaths.AUTH_BASE)
 @RequiredArgsConstructor
 public class AuthController {
 
@@ -24,7 +25,7 @@ public class AuthController {
 
 
 
-    @PostMapping("/initiate-signup")
+    @PostMapping(ApiPaths.INITIATE_SIGNUP)
     public ResponseEntity<ResponseDto> initiateSignup(@RequestBody @Valid SignupRequestDto dto) {
         ResponseDto response = authService.initiateSignup(dto);
         if (response.isSuccess()){
@@ -36,7 +37,7 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/complete-registration")
+    @PostMapping(ApiPaths.COMPLETE_REGISTRATION)
     public ResponseEntity<ResponseDto> completeRegistration(
             @RequestBody @Valid CompleteRegistrationDto dto) {
         ResponseDto response = authService.completeRegistration(dto);
@@ -49,7 +50,7 @@ public class AuthController {
 
  
 
-    @PostMapping("/login")
+    @PostMapping(ApiPaths.LOGIN)
     public ResponseEntity<ResponseDto> login(@RequestBody LoginDto loginDto) {
         ResponseDto response = authService.login(loginDto);
 
@@ -60,7 +61,7 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/verify-otp")
+    @PostMapping(ApiPaths.VERIFY_OTP)
     public ResponseEntity<ResponseDto> verifyOtp(@RequestBody @Valid VerifyOtpDto dto) {
         ResponseDto response = authService.verifyOtp(dto);
         if (response.isSuccess()) {

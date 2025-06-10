@@ -30,6 +30,12 @@ export class HomeComponent {
 
   ngOnInit() {
 
+
+    setInterval(() => {
+      this.shared.alertFlag = true;
+      this.shared.alertMessage = "Power consumption is above 150 watts";
+    }, 60000);
+
     const token = sessionStorage.getItem('token');
     if (token != null) {
       this.alert.getAlertReadings(token).subscribe(data => {
@@ -42,7 +48,7 @@ export class HomeComponent {
           if (lastAlert != null) {
             if (lastAlert['acknowledged'] == false) {
               this.shared.alertFlag = true;
-              this.shared.alertMessage = lastAlert['type'] + " is " + lastAlert['message'] + " Current Value of " + lastAlert['currentValue'] + " Threshold Value is " + lastAlert['thresholdValue'];
+              this.shared.alertMessage = lastAlert['message'];
               setTimeout(() => this.removeAlertFlag(token, lastAlert['id']), 5000);
               console.log("alertsssss", lastAlert);
             }

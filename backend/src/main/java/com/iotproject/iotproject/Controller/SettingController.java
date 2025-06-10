@@ -1,5 +1,7 @@
 package com.iotproject.iotproject.Controller;
 
+import com.iotproject.iotproject.Constants.ApiPaths;
+import com.iotproject.iotproject.Constants.MetricConstants;
 import com.iotproject.iotproject.Entity.Setting;
 import com.iotproject.iotproject.Enum.AlertType;
 import com.iotproject.iotproject.Enum.SettingType;
@@ -14,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/settings")
+@RequestMapping(ApiPaths.SETTING_BASE)
 public class SettingController {
 
     @Autowired
@@ -41,17 +43,17 @@ public class SettingController {
         if (setting.getThresholdValue() < 0) return false;
 
         switch (setting.getMetric()) {
-            case "trafficDensity":
+            case MetricConstants.TRAFFIC_DENSITY:
                 return setting.getThresholdValue() <= 500;
-            case "avgSpeed":
+            case MetricConstants.AVG_SPEED:
                 return setting.getThresholdValue() <= 120;
-            case "co":
+            case MetricConstants.CO:
                 return setting.getThresholdValue() <= 50;
-            case "ozone":
+            case MetricConstants.OZONE:
                 return setting.getThresholdValue() <= 300;
-            case "brightnessLevel":
+            case MetricConstants.BRIGHTNESS_LEVEL:
                 return setting.getThresholdValue() <= 100;
-            case "powerConsumption":
+            case MetricConstants.POWER_CONSUMPTION:
                 return setting.getThresholdValue() <= 5000;
             default:
                 return false;

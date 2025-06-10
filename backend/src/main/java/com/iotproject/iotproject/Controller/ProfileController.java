@@ -1,5 +1,6 @@
 package com.iotproject.iotproject.Controller;
 
+import com.iotproject.iotproject.Constants.ApiPaths;
 import com.iotproject.iotproject.Dto.ForgotPasswordRequestDto;
 import com.iotproject.iotproject.Service.OtpService;
 import com.iotproject.iotproject.Dto.ResetPasswordRequestDto;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
 @RestController
-@RequestMapping("/api/profile")
+@RequestMapping(ApiPaths.PROFILE_BASE)
 public class ProfileController {
     @Autowired
     private ProfileService profileService;
@@ -27,19 +28,19 @@ public class ProfileController {
         return ResponseEntity.ok(profileService.getCurrentUserProfile());
     }
 
-    @PutMapping("/password")
+    @PutMapping(ApiPaths.UPDATE_PASSWORD)
     public ResponseEntity<ResponseDto> updatePassword(@RequestBody PasswordUpdateDto dto) {
        ResponseDto response =  profileService.updatePassword(dto);
         return ResponseEntity.ok(response);
     }
-    @PostMapping("/forgot-password")
+    @PostMapping(ApiPaths.FORGET_PASSWORD)
     public ResponseEntity<String> forgotPassword(@RequestBody ForgotPasswordRequestDto request) {
         String email = request.getEmail();
         otpService.sendOtp(email);
         return ResponseEntity.ok("OTP sent to your email.");
     }
 
-    @PostMapping("/reset-password")
+    @PostMapping(ApiPaths.RESET_PASSWORD)
     public ResponseEntity<ResponseDto> resetPassword(@RequestBody ResetPasswordRequestDto dto) {
         ResponseDto response = profileService.resetPasswordWithOtp(
                 dto.getUsername(), dto.getOtp(), dto.getNewPassword());

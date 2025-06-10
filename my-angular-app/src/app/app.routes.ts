@@ -9,6 +9,7 @@ import { HomeComponent } from './home/home.component';
 import { SettingsComponent } from './settings/settings.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TrafficComponent } from './traffic/traffic.component';
+import { StreetComponent } from './street/street.component';
 
 export const routes: Routes = [
   { path: 'signin', component: SigninComponent },
@@ -17,10 +18,11 @@ export const routes: Routes = [
   { path: 'loading', component: LoadingComponent },
   { path: 'verify', component: OtpPageComponent },
   { path: 'verified-email', component: VerifiedEmailComponent },
-  
+
   // Standalone traffic route (accessible directly)
   { path: 'traffic', component: TrafficComponent },
-  
+  { path: 'street-light', component: StreetComponent },
+
   // Home route with nested children
   {
     path: 'home',
@@ -29,14 +31,14 @@ export const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'profile', component: ProfileComponent },
       { path: 'settings', component: SettingsComponent },
-      
+
       // Optionally add traffic as a child route too if you want /home/traffic
       { path: 'traffic', component: TrafficComponent },
-      
+
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },
-  
+
   // Fallback route
   { path: '**', redirectTo: 'signin' }
 ];

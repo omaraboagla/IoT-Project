@@ -3,11 +3,12 @@ package com.iotproject.iotproject.Scheduler;
 import com.iotproject.iotproject.Entity.AlertsEntity;
 import com.iotproject.iotproject.Entity.Setting;
 import com.iotproject.iotproject.Enum.AlertType;
-import com.iotproject.iotproject.Enum.SettingType;
 import com.iotproject.iotproject.Repo.AlertRepository;
 import com.iotproject.iotproject.Repo.SettingRepository;
+import com.iotproject.iotproject.Repo.StreetLightSensorRepository;
 import com.iotproject.iotproject.Repo.TrafficSensorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -25,42 +26,76 @@ public class AlertScheduler {
     @Autowired
     private AlertRepository alertRepository;
 
+    @Autowired
+    private StreetLightSensorRepository streetLightSensorRepo;
+
+    @Value("${SENSOR_SCHEDULER_CRON}")
+    private String sensorSchedulerCron;
 
 
-    @Scheduled(cron = "0 */1 * * * *")
-    public void evaluateTrafficAlerts() {
-        Setting latestSetting = settingRepository.findTopByOrderByCreatedAtDesc();
-
-        if (latestSetting == null) {
+    @Scheduled(cron = "${SENSOR_SCHEDULER_CRON:0 */1 * * * *}")
+    public void evaluateSensorAlerts() {
+        var settings = settingRepository.findAll();
+    
+        if (settings.isEmpty()) {
             System.out.println("No settings found.");
             return;
         }
-
-        if (latestSetting.getType() != SettingType.Traffic) {
-            System.out.println("Latest setting is not related to traffic.");
-            return;
-        }
-
-        switch (latestSetting.getMetric()) {
-            case "trafficDensity":
-                trafficRepo.findTopByOrderByTimestampDesc().ifPresent(sensor -> {
-                    Double currentValue = Double.valueOf(sensor.getTrafficDensity());
-                    checkAndCreateAlert(latestSetting, currentValue);
-                });
-                break;
-
-            case "avgSpeed":
-                trafficRepo.findTopByOrderByTimestampDesc().ifPresent(sensor -> {
-                    Double currentValue = sensor.getAvgSpeed();
-                    checkAndCreateAlert(latestSetting, currentValue);
-                });
-                break;
-
-            default:
-                System.out.println("Unknown metric: " + latestSetting.getMetric());
+    
+        for (Setting setting : settings) {
+            switch (setting.getType()) {
+                case Traffic:
+                    trafficRepo.findTopByOrderByTimestampDesc().ifPresent(sensor -> {
+                        Double currentValue = null;
+    
+                        switch (setting.getMetric()) {
+                            case "trafficDensity":
+                                currentValue = Double.valueOf(sensor.getTrafficDensity());
+                                break;
+                            case "avgSpeed":
+                                currentValue = sensor.getAvgSpeed();
+                                break;
+                            default:
+                                System.out.println("Unknown traffic metric: " + setting.getMetric());
+                        }
+    
+                        if (currentValue != null) {
+                            checkAndCreateAlert(setting, currentValue);
+                        }
+                    });
+                    break;
+    
+                    case Street_Light:
+                    streetLightSensorRepo.findTopByOrderByTimestampDesc().ifPresent(sensor -> {
+                        Double currentValue = null;
+                
+                        switch (setting.getMetric()) {
+                            case "brightnessLevel":
+                                Integer brightness = sensor.getBrightnessLevel();
+                                if (brightness != null) {
+                                    currentValue = brightness.doubleValue();
+                                }
+                                break;
+                            case "powerConsumption":
+                                currentValue = sensor.getPowerConsumption();
+                                break;
+                            default:
+                                System.out.println("Unknown streetlight metric: " + setting.getMetric());
+                        }
+                
+                        if (currentValue != null) {
+                            checkAndCreateAlert(setting, currentValue);
+                        }
+                    });
+                    break;
+                
+    
+                default:
+                    System.out.println("Unsupported setting type: " + setting.getType());
+            }
         }
     }
-
+    
     private void checkAndCreateAlert(Setting setting, Double currentValue) {
         boolean shouldAlert = false;
 

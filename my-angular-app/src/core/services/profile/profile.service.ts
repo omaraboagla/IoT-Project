@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class ProfileService {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
-    return this._httpclient.get(`http://localhost:8081/api/profile`, { headers });
+    return this._httpclient.get(`${environment.apiBaseUrl}/api/profile`, { headers });
   }
 
   changePassword(token: string, oldPassword: string, newPassword: string): Observable<any> {
@@ -25,6 +26,6 @@ export class ProfileService {
       'Content-Type': 'application/json'
     });
     const body = { oldPassword: oldPassword, newPassword: newPassword };
-    return this._httpclient.put(`http://localhost:8081/api/profile/password`, body, { headers });
+    return this._httpclient.put(`${environment.apiBaseUrl}/api/profile/password`, body, { headers });
   }
 }
