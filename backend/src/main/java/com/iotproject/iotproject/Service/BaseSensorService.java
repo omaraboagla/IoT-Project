@@ -58,10 +58,16 @@ public abstract class BaseSensorService<T , F, R extends CrudRepository<T, UUID>
     }
     public Specification<T> buildBaseSpecification(BaseSensorFilter filter) {
         Specification<T> spec = Specification.where(null);
+            // Case-insensitive location filter
+    if (filter.getLocation() != null && !filter.getLocation().isEmpty()) {
+        spec = spec.and((root, query, cb) ->
+            cb.equal(cb.lower(root.get("location")), filter.getLocation().toLowerCase()));
+    }
 
-        if (filter.getLocation() != null) {
-            spec = spec.and((root, query, cb) -> cb.equal(root.get("location"), filter.getLocation()));
-        }
+
+        // if (filter.getLocation() != null) {
+        //     spec = spec.and((root, query, cb) -> cb.equal(root.get("location"), filter.getLocation()));
+        // }
 
         if (filter.getStartDate() != null && filter.getEndDate() != null) {
             spec = spec.and((root, query, cb) ->

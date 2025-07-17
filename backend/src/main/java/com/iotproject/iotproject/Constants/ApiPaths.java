@@ -11,6 +11,8 @@ public class ApiPaths {
     public static final String ACKNOWLEDGE_ALERTS = "/{id}/acknowledge";
     public static final String FILTER_STREET_LIGHT = "/api/sensor/street-light/filter";
     public static final String FILTER_TRAFFIC = "/api/sensor/traffic-sensor/filter";
+    public static final String FILTER_AIR_POLLUTION = "/api/sensor/air-pollution/filter";
+
 
     // Auth
     public static final String AUTH_BASE = "/api/auth";

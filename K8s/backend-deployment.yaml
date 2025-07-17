@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: iot-backend
-          image: ahmedyasser02/iotproject:v4.4
+          image: ahmedyasser02/iotproject:v5.1
           ports:
             - containerPort: 8080
           envFrom:
