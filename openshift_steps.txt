@@ -1,0 +1,42 @@
+Step 1 : In your project select add YAML files
+Step 2 : Add your yaml files then create
+Step 3 : Open Topology and check if services and deployments for (frontend , backend and database) are created or not
+Step 4 : Open terminal from web console in your project
+Step 5 : Create Route for Frontend to be accesssible for end users and route for backend to be accessible with a public endpoint 
+
+frontend route
+------------------------------------
+cat <<EOF > frontend-route.yaml
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: angular-frontend
+spec:
+  to:
+    kind: Service
+    name: angular-frontend
+  port:
+    targetPort: 4200 //must match the port of the service
+EOF
+---------------------------------
+oc apply -f frontend-route.yaml
+
+
+backend route
+------------------------------
+cat <<EOF > backend-route.yaml
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: iot-backend
+spec:
+  to:
+    kind: Service
+    name: iot-backend
+  port:
+    targetPort: 8080
+EOF
+-----------------------------------------
+oc apply -f backend-route.yaml
+oc get route iot-backend
+

@@ -1,0 +1,11 @@
+kubectl exec -it test-mysql -- bash
+mysql -u root -p -h 127.0.0.1
+SHOW DATABASES;
+USE iotProject;
+SHOW TABLES;
+SELECT * FROM your_table;
+
+
+
+export PATH=$PATH:~/sonar-scanner/bin
+

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: iot-backend
+spec:
+  selector:
+    app: iot-backend
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30081  # add this for NodePort (optional)
+  type: NodePort
+

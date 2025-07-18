@@ -1,0 +1,11 @@
+    private String generateOtp() {
+
+        return String.format("%06d", new Random
+().nextInt(999999));
+
+Save and re-use this "Random".
+
+    }
+
+
+    
