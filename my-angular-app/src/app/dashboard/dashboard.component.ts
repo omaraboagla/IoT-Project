@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 export class DashboardComponent {
   constructor(private router: Router) {}
 
-goTo(path: string) {
-  this.router.navigate([`/${path}`]); 
-}
+  goTo(path: string) {
+    this.router.navigate([`/home/${path}`]);  // ✅ fixed
+  }
 }
