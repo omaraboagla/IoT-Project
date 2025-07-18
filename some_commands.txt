@@ -4,3 +4,8 @@ SHOW DATABASES;
 USE iotProject;
 SHOW TABLES;
 SELECT * FROM your_table;
+
+
+
+export PATH=$PATH:~/sonar-scanner/bin
+
