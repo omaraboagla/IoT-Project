@@ -1,0 +1,69 @@
+<div class="air-container">
+  @if(shared.alertFlag) {
+    <div>
+      <div class="air-alertNotify alert alert-warning text-center z-1">{{ shared.alertMessage }}</div>
+    </div>
+  }
+  <div class="air-header">
+    <h1>Air Pollution Monitoring</h1>
+    <button routerLink="/home/dashboard" class="air-back-button">Back to Dashboard</button>
+  </div>
+  <div class="air-content">
+    <div class="form-control mb-3">
+      <div class="d-flex my-2">
+        <label for="location">Location: </label>
+        <input type="text" id="location" class="form-control" [(ngModel)]="location" />
+      </div>
+      <div class="d-flex my-2">
+        <label for="sortBy">Sort by: </label>
+        <select id="sortBy" class="form-control" [(ngModel)]="sortBy">
+          <option value="location">Location</option>
+          <option value="timestamp">Timestamp</option>
+          <option value="co">CO</option>
+          <option value="ozone">Ozone</option>
+          <option value="pollutionLevel">Pollution Level</option>
+        </select>
+        <select id="sortMode" class="form-control" [(ngModel)]="sortMode">
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
+      </div>
+      <div class="d-flex my-2">
+        <label for="startDate">Start Date: </label>
+        <input type="datetime-local" id="startDate" class="form-control" [(ngModel)]="startDate" />
+        <label for="endDate">End Date: </label>
+        <input type="datetime-local" id="endDate" class="form-control" [(ngModel)]="endDate" />
+      </div>
+      <button class="btn btn-warning" (click)="putFilter()">Filter</button>
+    </div>
+    <table class="air-table">
+      <thead>
+        <tr>
+          <th *ngFor="let column of displayedColumns">{{ column | titlecase }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(row of airData; track $index) {
+          <tr>
+            <td>{{ $index + 1 }}</td>
+            <td>{{ row['location'] }}</td>
+            <td>{{ row['co'] }}</td>
+            <td>{{ row['ozone'] }}</td>
+            <td>{{ row['pollutionLevel'] }}</td>
+            <td>{{ row['timestamp'] }}</td>
+          </tr>
+        }
+        @empty {
+          <tr>
+            <td colspan="6" class="alert alert-danger mx-auto" style="text-align: center;">No data available</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-between mt-3">
+      <button class="btn btn-primary" (click)="previousPageData()">Previous</button>
+      <button class="btn btn-primary" (click)="nextPageData()">Next</button>
+    </div>
+    <canvas id="AirPollutionChart" class="w-100"></canvas>
+  </div>
+</div>

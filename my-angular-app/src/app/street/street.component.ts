@@ -94,7 +94,7 @@ export class StreetComponent {
   }
 
 
-  displayedColumns: string[] = ['id', 'location',"Power Consumption",  'Brightness Level', 'timestamp'];
+  displayedColumns: string[] = ['id', 'location', 'status', 'brightnessLevel', 'powerConsumption', 'timestamp'];
   // trafficData = [
   //   { id: 1, location: 'Main Street', status: 'heavy', vehicles: 120, timestamp: '2023-05-24 08:30' },
   //   { id: 2, location: 'Central Avenue', status: 'moderate', vehicles: 75, timestamp: '2023-05-24 08:45' },
