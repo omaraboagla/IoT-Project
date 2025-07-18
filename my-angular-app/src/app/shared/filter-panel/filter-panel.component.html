@@ -1,15 +1,34 @@
 <div class="form-control mb-3">
   <div class="d-flex my-2">
     <label for="location">Location: </label>
-    <input type="text" id="location" class="form-control" [(ngModel)]="location" />
+    <input
+      type="text"
+      id="location"
+      class="form-control"
+      [(ngModel)]="location"
+      (ngModelChange)="locationChange.emit($event)"
+    />
   </div>
 
   <div class="d-flex my-2">
     <label for="sortBy">Sort by: </label>
-    <select id="sortBy" class="form-control" [(ngModel)]="sortBy">
-      <option *ngFor="let option of sortOptions" [value]="option">{{ option | titlecase }}</option>
+    <select
+      id="sortBy"
+      class="form-control"
+      [(ngModel)]="sortBy"
+      (ngModelChange)="sortByChange.emit($event)"
+    >
+      <option *ngFor="let option of sortOptions" [value]="option">
+        {{ option | titlecase }}
+      </option>
     </select>
-    <select id="sortMode" class="form-control" [(ngModel)]="sortMode">
+
+    <select
+      id="sortMode"
+      class="form-control"
+      [(ngModel)]="sortMode"
+      (ngModelChange)="sortModeChange.emit($event)"
+    >
       <option value="asc">Ascending</option>
       <option value="desc">Descending</option>
     </select>
@@ -17,9 +36,21 @@
 
   <div class="d-flex my-2">
     <label for="startDate">Start Date: </label>
-    <input type="datetime-local" id="startDate" class="form-control" [(ngModel)]="startDate" />
+    <input
+      type="datetime-local"
+      id="startDate"
+      class="form-control"
+      [(ngModel)]="startDate"
+      (ngModelChange)="startDateChange.emit($event)"
+    />
     <label for="endDate">End Date: </label>
-    <input type="datetime-local" id="endDate" class="form-control" [(ngModel)]="endDate" />
+    <input
+      type="datetime-local"
+      id="endDate"
+      class="form-control"
+      [(ngModel)]="endDate"
+      (ngModelChange)="endDateChange.emit($event)"
+    />
   </div>
 
   <button class="btn btn-warning" (click)="filter.emit()">Filter</button>

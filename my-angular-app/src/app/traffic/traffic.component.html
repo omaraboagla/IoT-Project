@@ -19,11 +19,11 @@
 
   <div class="traffic-content">
     <app-filter-panel
-      [location]="location"
-      [sortBy]="sortBy"
-      [sortMode]="sortMode"
-      [startDate]="startDate"
-      [endDate]="endDate"
+      [(location)]="location"
+      [(sortBy)]="sortBy"
+      [(sortMode)]="sortMode"
+      [(startDate)]="startDate"
+      [(endDate)]="endDate"
       [sortOptions]="['location', 'timestamp', 'trafficDensity', 'avgSpeed']"
       (filter)="putFilter()"
     ></app-filter-panel>

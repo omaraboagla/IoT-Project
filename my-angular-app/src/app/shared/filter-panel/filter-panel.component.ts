@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule, NgIf, NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -11,11 +11,21 @@ import { FormsModule } from '@angular/forms';
 })
 export class FilterPanelComponent {
   @Input() location = '';
+  @Output() locationChange = new EventEmitter<string>();
+
   @Input() sortBy = '';
+  @Output() sortByChange = new EventEmitter<string>();
+
   @Input() sortMode = 'asc';
+  @Output() sortModeChange = new EventEmitter<string>();
+
   @Input() startDate = '';
+  @Output() startDateChange = new EventEmitter<string>();
+
   @Input() endDate = '';
-  @Input() sortOptions: string[] = []; 
+  @Output() endDateChange = new EventEmitter<string>();
+
+  @Input() sortOptions: string[] = [];
 
   @Output() filter = new EventEmitter<void>();
 }
