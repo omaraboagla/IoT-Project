@@ -9,6 +9,7 @@ import { environment } from '../../../environments/environment';
 export class ReadingsService {
 
   constructor(private _httpclient: HttpClient) { }
+  
 
   getReadings(location: string, congestionControl: string, page: number, size: number, sort: string, sortMode: string, startDate: string, endDate: string): Observable<any> {
     const headers = new HttpHeaders({
@@ -114,4 +115,18 @@ export class ReadingsService {
     const body = {};
     return this._httpclient.put(`${environment.apiBaseUrl}/api/alerts/street-light/${id}/acknowledge`, body, { headers });
   }
+  getReadingsAir(location: string, page: number, size: number, sort: string, sortMode: string, startDate: string, endDate: string): Observable<any> {
+  const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+  let queryParameters = `page=${page}&size=5`;
+  if (location) queryParameters += `&location=${location}`;
+  if (startDate) queryParameters += `&startDate=${startDate}`;
+  if (endDate) queryParameters += `&endDate=${endDate}`;
+  if (sort) queryParameters += `&sort=${sort},${sortMode}`;
+
+  console.log(`Calling: ${environment.apiBaseUrl}/api/sensor/air-pollution/filter?${queryParameters}`);
+  return this._httpclient.get(`${environment.apiBaseUrl}/api/sensor/air-pollution/filter?${queryParameters}`, { headers });
 }
+
+}
+

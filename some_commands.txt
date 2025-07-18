@@ -9,3 +9,11 @@ SELECT * FROM your_table;
 
 export PATH=$PATH:~/sonar-scanner/bin
 
+
+
+cd /home/ahmed/sonarqube-10.4.1.88267/bin/linux-x86-64
+./sonar.sh start
+
+sonar-scanner
+
+localhost:9000

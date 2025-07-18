@@ -97,7 +97,7 @@ spec:
     spec:
       containers:
         - name: iot-backend
-          image: ahmedyasser02/iotproject:v5.3
+          image: ahmedyasser02/iotproject:v5.2
           ports:
             - containerPort: 8080
           envFrom:
@@ -140,7 +140,7 @@ spec:
     spec:
       containers:
         - name: angular-frontend
-          image: ahmedyasser02/my-angular-app:v4.5
+          image: ahmedyasser02/my-angular-app:v5.0
           ports:
             - containerPort: 4200
           env:

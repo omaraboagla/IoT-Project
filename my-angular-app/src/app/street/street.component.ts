@@ -1,154 +1,120 @@
-import { Component, NgModule, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TitleCasePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { ReadingsService } from '../../core/services/readings/readings.service';
-import { FormsModule, NgModel } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { Chart, registerables } from 'chart.js';
+
+import { AlertBannerComponent } from '../shared/alert-banner/alert-banner.component';
+import { FilterPanelComponent } from '../shared/filter-panel/filter-panel.component';
+
+import { ReadingsService } from '../../core/services/readings/readings.service';
 import { SharedService } from '../../core/services/shared/shared.service';
 
 @Component({
   selector: 'app-street',
   standalone: true,
-  imports: [CommonModule, TitleCasePipe, RouterModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    HttpClientModule,
+    AlertBannerComponent,
+    FilterPanelComponent
+  ],
   templateUrl: './street.component.html',
-  styleUrl: './street.component.scss'
+  styleUrls: ['./street.component.scss']
 })
-export class StreetComponent {
-  trafficData = [];
+export class StreetComponent implements OnInit, AfterViewInit {
+  constructor(
+    private readingsService: ReadingsService,
+    public shared: SharedService
+  ) {}
+
+  trafficData: any[] = [];
+  displayedColumns: string[] = ['#', 'location', 'status', 'brightnessLevel', 'powerConsumption', 'timestamp'];
+
   pageNumber = 0;
   nextPage = 1;
   previousPage = -1;
-  location = "";
-  brightnessLevel = "";
-  powerConsumption=""
-  sortBy = "";
-  sortMode = "asc";
-  startDate = "";
-  endDate = "";
-  constructor(private readingsService: ReadingsService, public shared: SharedService) { }
 
-  readData() {
-    console.log(this.startDate, " ", this.endDate);
-    this.readingsService.getReadingsStreet(this.location, this.brightnessLevel, this.pageNumber, 10, this.sortBy, this.sortMode, this.startDate, this.endDate).subscribe(data => {
-      this.trafficData = data.data;
-      this.viewChart();
-      this.nextPage %= data.meta.totalPages;
-      this.previousPage %= data.meta.totalPages;
-      if (this.previousPage == -1)
-        this.previousPage = data.meta.totalPages - 1;
-      console.log(data);
-    });
-  }
+  location = '';
+  brightnessLevel = '';
+  sortBy = '';
+  sortMode = 'asc';
+  startDate = '';
+  endDate = '';
 
-  ngOnInit() {
+  chart: Chart | undefined;
 
+  ngOnInit(): void {
+    Chart.register(...registerables);
     this.readData();
-    setInterval(() => { this.readData(); }, 30000);
-
+    setInterval(() => this.readData(), 30000); // auto-refresh every 30 sec
   }
 
-  previousPageData(): void {
-    this.readingsService.getReadingsStreet(this.location, this.brightnessLevel, this.previousPage, 10, this.sortBy, this.sortMode, this.startDate, this.endDate).subscribe(data => {
-      this.trafficData = data.data;
-      this.viewChart();
-      this.pageNumber = this.previousPage;
-      this.nextPage--;
-      this.previousPage--;
-      this.nextPage %= data.meta.totalPages;
-      this.previousPage %= data.meta.totalPages;
-      if (this.previousPage == -1)
-        this.previousPage = data.meta.totalPages - 1;
-      console.log(data.meta.pageNumber);
-    });
+  ngAfterViewInit(): void {
+    this.viewChart();
   }
 
-  nextPageData(): void {
-    this.readingsService.getReadingsStreet(this.location, this.brightnessLevel, this.nextPage, 10, this.sortBy, this.sortMode, this.startDate, this.endDate).subscribe(data => {
+  readData(): void {
+    this.readingsService.getReadingsStreet(
+      this.location,
+      this.brightnessLevel,
+      this.pageNumber,
+      10,
+      this.sortBy,
+      this.sortMode,
+      this.startDate,
+      this.endDate
+    ).subscribe(data => {
       this.trafficData = data.data;
       this.viewChart();
-      this.pageNumber = this.nextPage;
-      this.nextPage++;
-      this.previousPage++;
-      this.nextPage %= data.meta.totalPages;
-      this.previousPage %= data.meta.totalPages;
-      if (this.previousPage == -1)
-        this.previousPage = data.meta.totalPages - 1;
-      console.log(data.meta.pageNumber);
+
+      const totalPages = data.meta.totalPages;
+      this.nextPage = (this.pageNumber + 1) % totalPages;
+      this.previousPage = (this.pageNumber - 1 + totalPages) % totalPages;
     });
   }
 
   putFilter(): void {
+    this.pageNumber = 0;
     this.nextPage = 1;
     this.previousPage = -1;
-    this.pageNumber = 0;
-    this.readingsService.getReadingsStreet(this.location, this.brightnessLevel, 0, 10, this.sortBy, this.sortMode, this.startDate, this.endDate).subscribe(data => {
-      this.trafficData = data.data;
-      this.viewChart();
-      this.nextPage %= data.meta.totalPages;
-      this.previousPage %= data.meta.totalPages;
-      if (this.previousPage == -1)
-        this.previousPage = data.meta.totalPages - 1;
-      console.log(data.meta.pageNumber);
-    });
+    this.readData();
   }
 
-
-  displayedColumns: string[] = ['id', 'location',"Power Consumption",  'Brightness Level', 'timestamp'];
-  // trafficData = [
-  //   { id: 1, location: 'Main Street', status: 'heavy', vehicles: 120, timestamp: '2023-05-24 08:30' },
-  //   { id: 2, location: 'Central Avenue', status: 'moderate', vehicles: 75, timestamp: '2023-05-24 08:45' },
-  //   { id: 3, location: 'Riverside Drive', status: 'light', vehicles: 30, timestamp: '2023-05-24 09:00' },
-  //   { id: 4, location: 'Hilltop Road', status: 'heavy', vehicles: 150, timestamp: '2023-05-24 09:15' },
-  //   { id: 5, location: 'Park Lane', status: 'moderate', vehicles: 90, timestamp: '2023-05-24 09:30' }
-  // ];
-
-  // getStatusClass(status: string): string {
-  //   return {
-  //     'severe': 'status-heavy',
-  //     'high': 'status-heavy',
-  //     'moderate': 'status-moderate',
-  //     'low': 'status-light'
-  //   }[status.toLowerCase()] || '';
-  // }
-
-
-
-  chart: Chart | undefined;
-
-  ngAfterViewInit() {
-    Chart.register(...registerables);
-    this.viewChart();
+  nextPageData(): void {
+    this.pageNumber = this.nextPage;
+    this.readData();
   }
 
-  viewChart() {
-    // Register all chart types and components
+  previousPageData(): void {
+    this.pageNumber = this.previousPage;
+    this.readData();
+  }
 
-    // Create the chart
+  viewChart(): void {
     if (this.chart) {
       this.chart.destroy();
     }
 
-    let indexArray = [];
-    for (let i = 0; i < this.trafficData.length; i++) {
-      indexArray.push(i + 1);
-    }
+    const labels = this.trafficData.map((_, i) => i + 1);
+    const dataPoints = this.trafficData.map(row => row['brightnessLevel']);
 
     this.chart = new Chart('StreetChart', {
-      type: 'bar', // Change to 'line', 'pie', etc.
+      type: 'bar',
       data: {
-        labels: indexArray,
+        labels,
         datasets: [{
-          label: 'Street Data',
-          data: this.trafficData.map(row => row['brightnessLevel']),
+          label: 'Brightness Level',
+          data: dataPoints,
         }]
       },
       options: {
         responsive: true,
         plugins: {
-          legend: {
-            display: true,
-          }
+          legend: { display: true }
         }
       }
     });

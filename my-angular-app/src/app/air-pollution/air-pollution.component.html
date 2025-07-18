@@ -1,0 +1,51 @@
+<div class="air-container">
+  <app-alert-banner
+    [show]="shared.alertFlag"
+    [message]="shared.alertMessage"
+  ></app-alert-banner>
+
+  <div class="air-header">
+    <h1>Air Pollution Monitoring</h1>
+    <button routerLink="/home/dashboard" class="air-back-button">Back to Dashboard</button>
+  </div>
+
+  <div class="air-content">
+    <app-filter-panel
+      [(location)]="location"
+      [(sortBy)]="sortBy"
+      [(sortMode)]="sortMode"
+      [(startDate)]="startDate"
+      [(endDate)]="endDate"
+      [sortOptions]="['location', 'timestamp', 'co', 'ozone', 'pollutionLevel']"
+      (filter)="putFilter()"
+    ></app-filter-panel>
+
+    <table class="air-table">
+      <thead>
+        <tr>
+          <th *ngFor="let column of displayedColumns">{{ column | titlecase }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of airData; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ row['location'] }}</td>
+          <td>{{ row['co'] }}</td>
+          <td>{{ row['ozone'] }}</td>
+          <td>{{ row['pollutionLevel'] }}</td>
+          <td>{{ row['timestamp'] }}</td>
+        </tr>
+        <tr *ngIf="airData.length === 0">
+          <td colspan="6" class="alert alert-danger text-center">No data available</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between mt-3">
+      <button class="btn btn-primary" (click)="previousPageData()">Previous</button>
+      <button class="btn btn-primary" (click)="nextPageData()">Next</button>
+    </div>
+
+    <canvas id="AirPollutionChart" class="w-100"></canvas>
+  </div>
+</div>
