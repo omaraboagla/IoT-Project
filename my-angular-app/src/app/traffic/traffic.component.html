@@ -1,0 +1,74 @@
+<div *ngIf="trafficAlerts.length > 0" class="mb-3">
+  <div *ngFor="let alert of trafficAlerts" class="alert alert-danger">
+    <strong>{{ alert.type | uppercase }}</strong>: {{ alert.message }}<br />
+    Value: {{ alert.currentValue }} | Threshold: {{ alert.thresholdValue }}<br />
+    Time: {{ alert.triggeredAt | date:'short' }}
+  </div>
+</div>
+
+<div class="traffic-container">
+  <app-alert-banner
+    [show]="shared.alertFlag"
+    [message]="shared.alertMessage"
+  ></app-alert-banner>
+
+  <div class="traffic-header">
+    <h1>Traffic Monitoring</h1>
+    <button routerLink="/home/dashboard" class="back-button">Back to Dashboard</button>
+  </div>
+
+  <div class="traffic-content">
+    <app-filter-panel
+      [location]="location"
+      [sortBy]="sortBy"
+      [sortMode]="sortMode"
+      [startDate]="startDate"
+      [endDate]="endDate"
+      [sortOptions]="['location', 'timestamp', 'trafficDensity', 'avgSpeed']"
+      (filter)="putFilter()"
+    ></app-filter-panel>
+
+    <div class="d-flex my-2">
+      <label for="congestionLevel">Congestion Level: </label>
+      <select id="congestionLevel" class="form-control" [(ngModel)]="congestionLevel">
+        <option value="">Select Congestion Level</option>
+        <option value="LOW">Low</option>
+        <option value="MODERATE">Moderate</option>
+        <option value="HIGH">High</option>
+        <option value="SEVERE">Severe</option>
+      </select>
+    </div>
+
+    <table class="traffic-table">
+      <thead>
+        <tr>
+          <th *ngFor="let column of displayedColumns">{{ column | titlecase }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of trafficData; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ row['location'] }}</td>
+          <td>
+            <span [class]="getStatusClass(row['congestionLevel'])">
+              
+              {{ row['congestionLevel'] | titlecase }}
+            </span>
+          </td>
+          <td>{{ row['trafficDensity'] }}</td>
+          <td>{{ row['timestamp'] }}</td>
+        </tr>
+        <tr *ngIf="trafficData.length === 0">
+          <td colspan="5" class="alert alert-danger text-center">No data available</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between mt-3">
+      <button class="btn btn-primary" (click)="previousPageData()">Previous</button>
+      <button class="btn btn-primary" (click)="nextPageData()">Next</button>
+    </div>
+
+    <canvas id="trafficChart" class="w-100"></canvas>
+  </div>
+</div>

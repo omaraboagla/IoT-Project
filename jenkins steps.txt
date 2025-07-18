@@ -1,0 +1,4 @@
+1- added credentials of dockerhub
+2- installed plugins for docker commons and docker pipeline
+3- wrote the pipeline
+4- build

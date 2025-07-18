@@ -1,0 +1,106 @@
+.input-control {
+    margin: 10px 0 10px 0;
+}
+
+h2 {
+    margin-top: 10px;
+}
+
+input {
+    transition: all 0.5s;
+}
+
+input.form-control.ng-invalid:focus {
+    border-color: rgba(255, 0, 0, 0.5);
+    box-shadow: 0 0 0 0.25rem rgba(255, 0, 0, 0.2);
+}
+
+input.form-control.ng-valid:focus {
+    border-color: rgba(0, 255, 0, 0.5) !important;
+    box-shadow: 0 0 0 0.25rem rgba(0, 255, 0, 0.2) !important;
+}
+
+input.ng-touched.ng-invalid {
+    border-color: rgba(255, 0, 0, 0.5);
+    box-shadow: 0 0 0 0.25rem rgba(255, 0, 0, 0.2);
+}
+
+input.ng-touched.ng-valid {
+    border-color: rgba(0, 255, 0, 0.5) !important;
+    box-shadow: 0 0 0 0.25rem rgba(0, 255, 0, 0.2) !important;
+}
+
+label a {
+    color: var(--bs-gray);
+}
+
+.create-account {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.horizontal-line {
+    color: var(--bs-gray);
+    width: 5%;
+    text-align: center;
+    margin: auto;
+    position: relative;
+}
+
+.horizontal-line::before {
+    content: "";
+    background-color: var(--bs-gray);
+    width: 700%;
+    height: 2px;
+    top: 60%;
+    right: 150%;
+    position: absolute;
+}
+
+.horizontal-line::after {
+    content: "";
+    background-color: var(--bs-gray);
+    width: 700%;
+    height: 2px;
+    top: 60%;
+    left: 150%;
+    position: absolute;
+}
+
+/* icons */
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 1.25rem;
+
+}
+
+.social-icons div {
+    width: 3.125rem;
+    height: 3.125rem;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: larger;
+    transition: all 0.3s;
+}
+
+.social-icons div:hover {
+    filter: brightness(130%);
+    cursor: pointer;
+}
+
+.social-icons a {
+    text-decoration: none;
+    color: white;
+}
+
+@media screen and (max-width: 768px) {
+    h2 {
+        margin-top: 30px;
+    }
+
+}

@@ -1,0 +1,26 @@
+<div class="form-control mb-3">
+  <div class="d-flex my-2">
+    <label for="location">Location: </label>
+    <input type="text" id="location" class="form-control" [(ngModel)]="location" />
+  </div>
+
+  <div class="d-flex my-2">
+    <label for="sortBy">Sort by: </label>
+    <select id="sortBy" class="form-control" [(ngModel)]="sortBy">
+      <option *ngFor="let option of sortOptions" [value]="option">{{ option | titlecase }}</option>
+    </select>
+    <select id="sortMode" class="form-control" [(ngModel)]="sortMode">
+      <option value="asc">Ascending</option>
+      <option value="desc">Descending</option>
+    </select>
+  </div>
+
+  <div class="d-flex my-2">
+    <label for="startDate">Start Date: </label>
+    <input type="datetime-local" id="startDate" class="form-control" [(ngModel)]="startDate" />
+    <label for="endDate">End Date: </label>
+    <input type="datetime-local" id="endDate" class="form-control" [(ngModel)]="endDate" />
+  </div>
+
+  <button class="btn btn-warning" (click)="filter.emit()">Filter</button>
+</div>

@@ -1,0 +1,51 @@
+<div class="traffic-container">
+  <app-alert-banner
+    [show]="shared.alertFlag"
+    [message]="shared.alertMessage"
+  ></app-alert-banner>
+
+  <div class="traffic-header">
+    <h1>Street Monitoring</h1>
+    <button routerLink="/home/dashboard" class="back-button">Back to Dashboard</button>
+  </div>
+
+  <div class="traffic-content">
+    <app-filter-panel
+      [location]="location"
+      [sortBy]="sortBy"
+      [sortMode]="sortMode"
+      [startDate]="startDate"
+      [endDate]="endDate"
+      [sortOptions]="['location', 'timestamp', 'brightnessLevel', 'powerConsumption']"
+      (filter)="putFilter()"
+    ></app-filter-panel>
+
+    <table class="traffic-table">
+      <thead>
+        <tr>
+          <th *ngFor="let column of displayedColumns">{{ column | titlecase }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of trafficData; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ row['location'] }}</td>
+          <td>{{ row['status'] }}</td>
+          <td>{{ row['brightnessLevel'] }}</td>
+          <td>{{ row['powerConsumption'] }}</td>
+          <td>{{ row['timestamp'] }}</td>
+        </tr>
+        <tr *ngIf="trafficData.length === 0">
+          <td colspan="6" class="alert alert-danger text-center">No data available</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between mt-3">
+      <button class="btn btn-primary" (click)="previousPageData()">Previous</button>
+      <button class="btn btn-primary" (click)="nextPageData()">Next</button>
+    </div>
+
+    <canvas id="StreetChart" class="w-100"></canvas>
+  </div>
+</div>

@@ -1,0 +1,64 @@
+<app-formcard [validationStatus]="signInCredentials.valid">
+    <h2>Welcome !</h2>
+    <p>Please enter your credentials to sign in.</p>
+    @if(shared.alreadyRegistered)
+    {
+    <div class="alert alert-warning" role="alert">
+        <strong>Already Registered Email</strong> : Please Sign In with your registered email.
+    </div>
+    }
+    @if(shared.failedSignIn)
+    {
+    <div class="alert alert-danger" role="alert">
+        <strong>Email or Password are not Correct</strong> : Retry or Signup.
+    </div>
+    }
+    <form [formGroup]="signInCredentials" (ngSubmit)="onSubmit()" class="form-control">
+        <div class="input-control">
+            <label class="form-label" for="emailID">Email Address</label>
+            <input #emailID class="form-control" type="email" formControlName="email">
+            <div class="form-label text-danger">
+                @if(email.touched && email.invalid)
+                {
+                <p>Correct Email is required</p>
+                }
+            </div>
+        </div>
+
+        <div class="input-control">
+            <div class="d-flex justify-content-between">
+                <label class="form-label" for="passwordID">Password</label>
+                <label class="form-label" for="passwordID"><a href="#">Forgot
+                        Password?</a></label>
+
+            </div>
+            <input #passwordID class="form-control" type="password" formControlName="password">
+            <div class="form-label text-danger">
+                @if(password.touched && password.invalid)
+                {
+                <p>Password is required</p>
+                }
+            </div>
+        </div>
+
+        <button [disabled]="signInCredentials.invalid" class="btn btn-primary w-100" type="submit">Sign In</button>
+
+    </form>
+
+    <div class="create-account">
+        <p>Don't have an account? <a style="text-decoration: none;" [routerLink]="'../signup'">Create
+                an
+                Account</a></p>
+    </div>
+
+    <div class="horizontal-line">
+        <p>or</p>
+    </div>
+
+    <div class="social-icons">
+        <div style="background-color: #FC401D;"><a href=""><i class="fa-brands fa-google"></i></a></div>
+        <div style="background-color: #3B5999;"><a href=""><i class="fa-brands fa-facebook-f"></i></a></div>
+        <div style="background-color: black;"><a href=""><i class="fa-brands fa-x-twitter"></i></a></div>
+        <div style="background-color: #e1306c;"><a href=""><i class="fa-brands fa-instagram"></i></a></div>
+    </div>
+</app-formcard>
