@@ -1,0 +1,9 @@
+<div *ngIf="alerts.length > 0" class="mb-3">
+  <div *ngFor="let alert of alerts; let i = index" class="alert alert-danger alert-dismissible fade show">
+    <button type="button" class="btn-close float-end" aria-label="Close" (click)="dismiss(i)"></button>
+    
+    <strong>{{ alert.type.toUpperCase() }} - {{ alert.metric.toUpperCase() }}</strong><br>
+    {{ alert.message }}<br>
+    <small>Triggered at: {{ alert.triggeredAt | date:'short' }}</small>
+  </div>
+</div>

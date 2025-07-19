@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { Chart, registerables } from 'chart.js';
+import { AlertsService } from '../alerts/alerts.service';
 
 import { AlertBannerComponent } from '../shared/alert-banner/alert-banner.component';
 import { FilterPanelComponent } from '../shared/filter-panel/filter-panel.component';
@@ -28,7 +29,9 @@ import { SharedService } from '../../core/services/shared/shared.service';
 export class StreetComponent implements OnInit, AfterViewInit {
   constructor(
     private readingsService: ReadingsService,
-    public shared: SharedService
+    public shared: SharedService,
+      private alertsService: AlertsService // ✅ Add this
+
   ) {}
 
   trafficData: any[] = [];
@@ -69,6 +72,11 @@ export class StreetComponent implements OnInit, AfterViewInit {
       this.endDate
     ).subscribe(data => {
       this.trafficData = data.data;
+      for (const row of this.trafficData) {
+  this.alertsService.checkAlert('street', 'brightnessLevel', row['brightnessLevel']);
+  this.alertsService.checkAlert('street', 'powerConsumption', row['powerConsumption']);
+}
+
       this.viewChart();
 
       const totalPages = data.meta.totalPages;

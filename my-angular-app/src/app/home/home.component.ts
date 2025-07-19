@@ -31,10 +31,10 @@ export class HomeComponent {
   ngOnInit() {
 
 
-    setInterval(() => {
-      this.shared.alertFlag = true;
-      this.shared.alertMessage = "Power consumption is above 150 watts";
-    }, 60000);
+    // setInterval(() => {
+    //   this.shared.alertFlag = true;
+    //   this.shared.alertMessage = "Power consumption is above 150 watts";
+    // }, 60000);
 
     const token = sessionStorage.getItem('token');
     if (token != null) {

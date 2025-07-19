@@ -7,10 +7,8 @@
 </div>
 
 <div class="traffic-container">
-  <app-alert-banner
-    [show]="shared.alertFlag"
-    [message]="shared.alertMessage"
-  ></app-alert-banner>
+<app-alert-banner [filterType]="'traffic'"></app-alert-banner>
+
 
   <div class="traffic-header">
     <h1>Traffic Monitoring</h1>

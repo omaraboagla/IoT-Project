@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -10,22 +10,35 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./filter-panel.component.scss']
 })
 export class FilterPanelComponent {
-  @Input() location = '';
+  @Input() location: string = '';
   @Output() locationChange = new EventEmitter<string>();
 
-  @Input() sortBy = '';
+  @Input() sortBy: string = '';
   @Output() sortByChange = new EventEmitter<string>();
 
-  @Input() sortMode = 'asc';
+  @Input() sortMode: string = 'asc';
   @Output() sortModeChange = new EventEmitter<string>();
 
-  @Input() startDate = '';
+  @Input() startDate: string = '';
   @Output() startDateChange = new EventEmitter<string>();
 
-  @Input() endDate = '';
+  @Input() endDate: string = '';
   @Output() endDateChange = new EventEmitter<string>();
 
   @Input() sortOptions: string[] = [];
 
   @Output() filter = new EventEmitter<void>();
+
+  invalidDateRange: boolean = false;
+
+  onFilterClick(): void {
+    this.invalidDateRange = false;
+
+    if (this.startDate && this.endDate && new Date(this.startDate) > new Date(this.endDate)) {
+      this.invalidDateRange = true;
+      return;
+    }
+
+    this.filter.emit();
+  }
 }

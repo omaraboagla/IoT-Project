@@ -1,9 +1,12 @@
 .hero-background {
-    min-height: 100vh;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5)), url('../assets/Images/IOT_Background.png');
-    background-position: center center;
-    background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5)), url('../assets/Images/IOT_Background.png');
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* ✅ Keeps background static */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

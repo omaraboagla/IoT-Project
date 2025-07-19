@@ -140,7 +140,7 @@ spec:
     spec:
       containers:
         - name: angular-frontend
-          image: ahmedyasser02/my-angular-app:v5.0
+          image: ahmedyasser02/my-angular-app:v5.2
           ports:
             - containerPort: 4200
           env:

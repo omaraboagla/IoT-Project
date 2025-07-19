@@ -53,5 +53,9 @@
     />
   </div>
 
-  <button class="btn btn-warning" (click)="filter.emit()">Filter</button>
+<button class="btn btn-warning" (click)="onFilterClick()">Filter</button>
+
+<div *ngIf="invalidDateRange" class="alert alert-danger mt-2">
+  Start date cannot be after end date.
+</div>
 </div>

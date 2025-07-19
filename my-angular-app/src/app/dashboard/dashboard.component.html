@@ -14,3 +14,13 @@
     <p>Track environmental air quality metrics.</p>
   </div>
 </div>
+<div class="mt-4">
+  <h2>Recent Alerts</h2>
+  <div *ngIf="alerts.length === 0" class="text-muted">No alerts triggered yet.</div>
+
+  <div *ngFor="let alert of alerts" class="alert alert-warning">
+    <strong>{{ alert.type.toUpperCase() }} - {{ alert.metric }}</strong><br />
+    {{ alert.message }}<br />
+    <small>Triggered at: {{ alert.triggeredAt | date:'short' }}</small>
+  </div>
+</div>

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { Chart, registerables } from 'chart.js';
+import { AlertsService } from '../alerts/alerts.service';
 
 import { ReadingsService } from '../../core/services/readings/readings.service';
 import { SharedService } from '../../core/services/shared/shared.service';
@@ -27,7 +28,9 @@ import { FilterPanelComponent } from '../shared/filter-panel/filter-panel.compon
 export class AirPollutionComponent implements OnInit, AfterViewInit {
   constructor(
     private readingsService: ReadingsService,
-    public shared: SharedService
+    public shared: SharedService,
+    private alertsService: AlertsService // ✅ Add this
+
   ) {}
 
   airData: any[] = [];
@@ -52,7 +55,7 @@ export class AirPollutionComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.viewChart();
+    // Removed viewChart() from here to avoid drawing chart before data is ready
   }
 
   readData(): void {
@@ -66,7 +69,14 @@ export class AirPollutionComponent implements OnInit, AfterViewInit {
       this.endDate
     ).subscribe((data: any) => {
       this.airData = data.data;
-      this.viewChart();
+
+for (const row of this.airData) {
+  this.alertsService.checkAlert('air', 'co', row['co']);
+  this.alertsService.checkAlert('air', 'ozone', row['ozone']);
+}
+
+this.viewChart();
+
 
       const totalPages = data.meta.totalPages;
       this.nextPage = (this.pageNumber + 1) % totalPages;
@@ -97,21 +107,41 @@ export class AirPollutionComponent implements OnInit, AfterViewInit {
     }
 
     const labels = this.airData.map((_, i) => i + 1);
-    const pollution = this.airData.map(row => row['pollutionLevel']);
+    const coValues = this.airData.map(row => row['co']);
+    const ozoneValues = this.airData.map(row => row['ozone']);
 
     this.chart = new Chart('AirPollutionChart', {
       type: 'bar',
       data: {
         labels,
-        datasets: [{
-          label: 'Pollution Level',
-          data: pollution
-        }]
+        datasets: [
+          {
+            label: 'CO',
+            data: coValues,
+            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+          },
+          {
+            label: 'Ozone',
+            data: ozoneValues,
+            backgroundColor: 'rgba(255, 159, 64, 0.6)',
+            borderColor: 'rgba(255, 159, 64, 1)',
+            borderWidth: 1
+          }
+        ]
       },
       options: {
         responsive: true,
         plugins: {
-          legend: { display: true }
+          legend: {
+            display: true
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true
+          }
         }
       }
     });
